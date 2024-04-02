@@ -41,6 +41,8 @@ struct Vector3 {
     [[nodiscard]] double dot(const Vector3& v) const;
 };
 
+using Point3 = Vector3;
+
 Vector3 operator*(Vector3 v, double s);
 
 Vector3 operator/(Vector3 v, double s);
