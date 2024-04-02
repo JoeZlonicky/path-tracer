@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 
+#include "color.h"
+#include "vector_3.h"
+
 int main() {
 	int image_width = 256;
 	int image_height = 256;
@@ -11,19 +14,14 @@ int main() {
 	output << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
 	for (int y = 0; y < image_height; ++y) {
+		std::clog << "\rRows remaining: " << (image_height - y) << ' ' << std::flush;
 		for (int x = 0; x < image_width; ++x) {
-			double r = double(x) / (image_width - 1);
-			double g = double(y) / (image_height - 1);
-			double b = 0;
-
-			int ir = static_cast<int>(255.999 * r);
-			int ig = static_cast<int>(255.999 * g);
-			int ib = static_cast<int>(255.999 * b);
-			
-			output << ir << ' ' << ig << ' ' << ib << '\n';
+			auto pixel_color = Color(double(x) / (image_width - 1), double(y) / (image_height - 1), 0);
+			write_color_256(output, pixel_color);
 		}
 	}
 
 	output.close();
+	std::clog << "\rDone.            \n";
 	return 0;
 }
