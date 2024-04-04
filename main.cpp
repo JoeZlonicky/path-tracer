@@ -21,6 +21,7 @@ int main() {
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
 	cam.image_width = 400;
+	cam.max_bounces = 20;
 	cam.samples_per_pixel = 10;
 
 	std::ofstream output;

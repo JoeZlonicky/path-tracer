@@ -1,12 +1,23 @@
 #include "vector_3.h"
 
 #include <cmath>
+#include "utility.h"
 
 Vector3::Vector3() : x(0.f), y(0.f), z(0.f) {}
 
 Vector3::Vector3(double value) : x(value), y(value), z(value) {}
 
 Vector3::Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
+
+Vector3 Vector3::random()
+{
+    return Vector3(random_normalized(), random_normalized(), random_normalized());
+}
+
+Vector3 Vector3::random(double min, double max)
+{
+    return Vector3(random_range(min, max), random_range(min, max), random_range(min, max));
+}
 
 double& Vector3::operator[](const int i) {
     return components[i];

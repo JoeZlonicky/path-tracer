@@ -14,7 +14,7 @@ void Camera::render(const Hittable& world, std::ostream& out)
 			Color pixel_color{ 0.0, 0.0, 0.0 };
 			for (int sample = 0; sample < samples_per_pixel; ++sample) {
 				auto r = get_ray(x, y);
-				pixel_color += ray_color(r, world);
+				pixel_color += ray_color(r, max_bounces, world);
 			}
 			
 			write_color_256(out, pixel_color, samples_per_pixel);
@@ -46,11 +46,14 @@ void Camera::init()
 	pixel_upper_left = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
 }
 
-Color Camera::ray_color(const Ray& r, const Hittable& world) const
+Color Camera::ray_color(const Ray& r, int bounces_left, const Hittable& world) const
 {
+	if (bounces_left <= 0) return { 0.0, 0.0, 0.0 };
+
 	HitRecord record;
 	if (world.hit(r, Interval(0.0, infinity), record)) {
-		return 0.5 * (record.normal + Color(1.0, 1.0, 1.0));
+		Vector3 direction = random_on_hemisphere(record.normal);
+		return 0.5 * ray_color({record.p, direction}, bounces_left - 1, world);
 	}
 
 	Vector3 unit_direction = r.getDirection().normalized();

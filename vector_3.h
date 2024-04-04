@@ -16,6 +16,9 @@ struct Vector3 {
     explicit Vector3(double value);
     Vector3(double x, double y, double z);
 
+    static Vector3 random();
+    static Vector3 random(double min, double max);
+
     double& operator[](int i);
     const double& operator[](int i) const;
 

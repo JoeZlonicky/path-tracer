@@ -13,10 +13,11 @@ public:
 	double aspect_ratio = 1.0;
 	int image_width = 100;
 	int samples_per_pixel = 10;
+	int max_bounces = 10;
 
 private:
 	void init();
-	Color ray_color(const Ray& r, const Hittable& world) const;
+	Color ray_color(const Ray& r, int bounces_left, const Hittable& world) const;
 	Ray get_ray(int x, int y) const;
 	Vector3 pixel_random_sample() const;
 
