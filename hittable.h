@@ -2,11 +2,13 @@
 
 #include "ray.h"
 #include "interval.h"
+#include "material.h"
 
 class HitRecord {
 public:
 	Point3 p;
 	Vector3 normal;
+	std::shared_ptr<Material> mat;
 	double t;
 	bool is_front_face;
 

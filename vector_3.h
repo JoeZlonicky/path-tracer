@@ -32,6 +32,7 @@ struct Vector3 {
 
     void normalize();
     [[nodiscard]] Vector3 normalized() const;
+    [[nodiscard]] bool is_near_zero() const;
 
     void clamp(double clamped_magnitude);
     [[nodiscard]] Vector3 clamped(double clamped_magnitude) const;
@@ -40,12 +41,14 @@ struct Vector3 {
     [[nodiscard]] double magnitude() const;
 
     [[nodiscard]] Vector3 cross(const Vector3& v) const;
+    [[nodiscard]] Vector3 reflect(const Vector3& n) const;
 
     [[nodiscard]] double dot(const Vector3& v) const;
 };
 
 using Point3 = Vector3;
 
+Vector3 operator*(Vector3 a, const Vector3& b);
 Vector3 operator*(Vector3 v, double s);
 Vector3 operator*(double s, Vector3 v);
 

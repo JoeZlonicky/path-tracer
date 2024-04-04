@@ -53,8 +53,12 @@ Color Camera::ray_color(const Ray& r, int bounces_left, const Hittable& world) c
 	HitRecord record;
 	static const double min_travel = 0.0001;
 	if (world.hit(r, Interval(min_travel, infinity), record)) {
-		Vector3 direction = record.normal + random_unit_vector();
-		return 0.5 * ray_color({record.p, direction}, bounces_left - 1, world);
+		Ray scattered;
+		Color attenuation;
+		if (record.mat->scatter(r, record, attenuation, scattered)) {
+			return attenuation * ray_color(scattered, bounces_left - 1, world);
+		}
+		return { 0, 0, 0 };
 	}
 
 	Vector3 unit_direction = r.getDirection().normalized();

@@ -62,6 +62,12 @@ Vector3 Vector3::normalized() const {
     return *this / magnitude();
 }
 
+bool Vector3::is_near_zero() const
+{
+    static const double s = 1e-16;
+    return squared_magnitude() < s;
+}
+
 void Vector3::clamp(double clamped_magnitude) {
     double current_magnitude = this->magnitude();
     if (current_magnitude < clamped_magnitude) return;
@@ -92,8 +98,22 @@ Vector3 Vector3::cross(const Vector3& v) const {
             x * v.y - y * v.x };
 }
 
+Vector3 Vector3::reflect(const Vector3& n) const
+{
+    return *this - 2.0 * this->dot(n) * n;
+}
+
+
 double Vector3::dot(const Vector3& v) const {
     return x * v.x + y * v.y + z * v.z;
+}
+
+Vector3 operator*(Vector3 a, const Vector3& b)
+{
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
+    return a;
 }
 
 Vector3 operator*(Vector3 v, double s) {
