@@ -5,7 +5,20 @@
 #include "ray.h"
 #include "vector_3.h"
 
+
+static bool sphere_check(const Point3& center, double radius, const Ray& r) {
+	auto oc = r.getOrigin() - center;
+	auto dir = r.getDirection();
+	auto a = dir.squared_magnitude();
+	auto b = 2.0 * oc.dot(dir);
+	auto c = oc.squared_magnitude() - radius * radius;
+	auto discriminant = b * b - 4 * a * c;
+	return (discriminant >= 0);
+}
+
 static Color ray_color(const Ray& r) {
+	if (sphere_check(Point3{ 0.0, 0.0, -1.0 }, 0.5, r)) return Color(1.0, 0.0, 0.0);
+
 	Vector3 unit_direction = r.getDirection().normalized();
 	auto t = (unit_direction.y + 1.0) * 0.5;
 	return Color(1.0, 1.0, 1.0) * (1.0 - t) + Color(0.5, 0.7, 1.0) * t;
