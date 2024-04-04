@@ -85,12 +85,17 @@ double Vector3::dot(const Vector3& v) const {
     return x * v.x + y * v.y + z * v.z;
 }
 
-Vector3 operator*(Vector3 v, const double s) {
+Vector3 operator*(Vector3 v, double s) {
     v *= s;
     return v;
 }
 
-Vector3 operator/(Vector3 v, const double s) {
+Vector3 operator*(double s, Vector3 v)
+{
+    return v * s;
+}
+
+Vector3 operator/(Vector3 v, double s) {
     v /= s;
     return v;
 }

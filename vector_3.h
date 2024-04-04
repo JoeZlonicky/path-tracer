@@ -44,6 +44,7 @@ struct Vector3 {
 using Point3 = Vector3;
 
 Vector3 operator*(Vector3 v, double s);
+Vector3 operator*(double s, Vector3 v);
 
 Vector3 operator/(Vector3 v, double s);
 

@@ -1,27 +1,42 @@
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 #include "color.h"
 #include "ray.h"
 #include "vector_3.h"
 
 
-static bool sphere_check(const Point3& center, double radius, const Ray& r) {
+static double sphere_check(const Point3& center, double radius, const Ray& r) {
 	auto oc = r.getOrigin() - center;
 	auto dir = r.getDirection();
+	auto r2 = radius * radius;
+
+	// https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere/ray-sphereintersection
 	auto a = dir.squared_magnitude();
-	auto b = 2.0 * oc.dot(dir);
-	auto c = oc.squared_magnitude() - radius * radius;
-	auto discriminant = b * b - 4 * a * c;
-	return (discriminant >= 0);
+	auto half_b = oc.dot(dir);
+	auto c = oc.squared_magnitude() - r2;
+
+	auto discriminant = half_b * half_b - a * c;
+	if (discriminant < 0.0) {
+		return -1.0;
+	}
+	else {
+		return (-half_b - sqrt(discriminant)) / a;
+	}
+	
 }
 
 static Color ray_color(const Ray& r) {
-	if (sphere_check(Point3{ 0.0, 0.0, -1.0 }, 0.5, r)) return Color(1.0, 0.0, 0.0);
+	auto t = sphere_check(Point3{ 0.0, 0.0, -1.0 }, 0.5, r);
+	if (t > 0.0) {
+		auto normal = (r.at(t) - Vector3(0.0, 0.0, -1.0)).normalized();
+		return 0.5 * Color(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0);
+	}
 
 	Vector3 unit_direction = r.getDirection().normalized();
-	auto t = (unit_direction.y + 1.0) * 0.5;
-	return Color(1.0, 1.0, 1.0) * (1.0 - t) + Color(0.5, 0.7, 1.0) * t;
+	auto a = (unit_direction.y + 1.0) * 0.5;
+	return Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a;
 }
 
 int main() {
