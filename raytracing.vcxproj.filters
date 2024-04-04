@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Materials">
+      <UniqueIdentifier>{e38b0371-a386-4081-ba74-31ae1f777e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hittables">
+      <UniqueIdentifier>{132493e3-19dc-4e4b-a46c-910dc046355e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials">
+      <UniqueIdentifier>{ec903e97-6d20-4bba-b4bc-a09b519ad64d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hittables">
+      <UniqueIdentifier>{c537348c-7fc4-4f05-8d97-5795ad88c090}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,22 +39,25 @@
     <ClCompile Include="ray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hittable_list.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="interval.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hittable_list.cpp">
+      <Filter>Source Files\Hittables</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere.cpp">
+      <Filter>Source Files\Hittables</Filter>
+    </ClCompile>
     <ClCompile Include="lambertian.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Materials</Filter>
     </ClCompile>
     <ClCompile Include="metal.cpp">
+      <Filter>Source Files\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="dielectric.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,15 +71,6 @@
     <ClInclude Include="ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hittable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hittable_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,13 +81,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="material.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Materials</Filter>
     </ClInclude>
     <ClInclude Include="lambertian.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Materials</Filter>
     </ClInclude>
     <ClInclude Include="metal.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="hittable.h">
+      <Filter>Header Files\Hittables</Filter>
+    </ClInclude>
+    <ClInclude Include="hittable_list.h">
+      <Filter>Header Files\Hittables</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>Header Files\Hittables</Filter>
+    </ClInclude>
+    <ClInclude Include="dielectric.h">
+      <Filter>Header Files\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -103,6 +103,14 @@ Vector3 Vector3::reflect(const Vector3& n) const
     return *this - 2.0 * this->dot(n) * n;
 }
 
+Vector3 Vector3::refract(const Vector3& n, double etai_over_etat)
+{
+    auto cos_theta = fmin(dot(-n), 1.0);
+    auto perp = etai_over_etat * (*this + cos_theta * n);
+    auto parallel = -sqrt(fabs(1.0 - perp.squared_magnitude())) * n;
+    return perp + parallel;
+}
+
 
 double Vector3::dot(const Vector3& v) const {
     return x * v.x + y * v.y + z * v.z;

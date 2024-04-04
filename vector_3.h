@@ -42,6 +42,7 @@ struct Vector3 {
 
     [[nodiscard]] Vector3 cross(const Vector3& v) const;
     [[nodiscard]] Vector3 reflect(const Vector3& n) const;
+    [[nodiscard]] Vector3 refract(const Vector3& n, double etai_over_etat);
 
     [[nodiscard]] double dot(const Vector3& v) const;
 };
