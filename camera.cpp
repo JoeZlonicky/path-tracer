@@ -51,7 +51,8 @@ Color Camera::ray_color(const Ray& r, int bounces_left, const Hittable& world) c
 	if (bounces_left <= 0) return { 0.0, 0.0, 0.0 };
 
 	HitRecord record;
-	if (world.hit(r, Interval(0.0, infinity), record)) {
+	static const double min_travel = 0.0001;
+	if (world.hit(r, Interval(min_travel, infinity), record)) {
 		Vector3 direction = random_on_hemisphere(record.normal);
 		return 0.5 * ray_color({record.p, direction}, bounces_left - 1, world);
 	}
