@@ -12,7 +12,7 @@
 
 static Color ray_color(const Ray& r, const Hittable& world) {
 	HitRecord record;
-	if (world.hit(r, 0.0, infinity, record)) {
+	if (world.hit(r, Interval(0.0, infinity), record)) {
 		return 0.5 * (record.normal + Color(1.0, 1.0, 1.0));
 	}
 

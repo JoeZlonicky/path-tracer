@@ -6,7 +6,7 @@ Sphere::Sphere(Point3 center, double radius) : _center(center), _radius(radius)
 {
 }
 
-bool Sphere::hit(const Ray& r, double ray_t_min, double ray_t_max, HitRecord& record) const
+bool Sphere::hit(const Ray& r, Interval ray_t, HitRecord& record) const
 {
 	auto oc = r.getOrigin() - _center;
 	auto dir = r.getDirection();
@@ -24,9 +24,9 @@ bool Sphere::hit(const Ray& r, double ray_t_min, double ray_t_max, HitRecord& re
 
 	// Find the nearest root
 	auto root = (-half_b - sqrt_d) / a;
-	if (root < ray_t_min || root > ray_t_max) {
+	if (!ray_t.surrounds(root)) {
 		root = (-half_b + sqrt_d) / a;
-		if (root < ray_t_min || root > ray_t_max) {
+		if (!ray_t.surrounds(root)) {
 			return false;
 		}
 	}

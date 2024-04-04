@@ -15,5 +15,5 @@ public:
 	void clear();
 	void add(std::shared_ptr<Hittable> object);
 
-	bool hit(const Ray& r, double ray_t_min, double ray_t_max, HitRecord& record) const override;
+	bool hit(const Ray& r, Interval ray_t, HitRecord& record) const override;
 };
