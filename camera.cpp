@@ -11,12 +11,13 @@ void Camera::render(const Hittable& world, std::ostream& out)
 	for (int y = 0; y < image_height; ++y) {
 		std::clog << "\rRows remaining: " << (image_height - y) << ' ' << std::flush;
 		for (int x = 0; x < image_width; ++x) {
-			auto pixel_center = pixel_upper_left + (pixel_delta_u * x) + (pixel_delta_v * y);
-			auto ray_direction = pixel_center - center;
-			Ray r{ center, ray_direction };
-
-			Color pixel_color = ray_color(r, world);
-			write_color_256(out, pixel_color);
+			Color pixel_color{ 0.0, 0.0, 0.0 };
+			for (int sample = 0; sample < samples_per_pixel; ++sample) {
+				auto r = get_ray(x, y);
+				pixel_color += ray_color(r, world);
+			}
+			
+			write_color_256(out, pixel_color, samples_per_pixel);
 		}
 	}
 	std::clog << "\rDone.            \n";
@@ -55,4 +56,22 @@ Color Camera::ray_color(const Ray& r, const Hittable& world) const
 	Vector3 unit_direction = r.getDirection().normalized();
 	auto a = (unit_direction.y + 1.0) * 0.5;
 	return Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a;
+}
+
+Ray Camera::get_ray(int x, int y) const
+{
+	auto pixel_center = pixel_upper_left + (pixel_delta_u * x) + (pixel_delta_v * y);
+	auto pixel_sample = pixel_center + pixel_random_sample();
+
+	auto ray_origin = center;
+	auto ray_direction = pixel_sample - ray_origin;
+
+	return { ray_origin, ray_direction };
+}
+
+Vector3 Camera::pixel_random_sample() const
+{
+	auto px = -0.5 + random_normalized();
+	auto py = -0.5 + random_normalized();
+	return (px * pixel_delta_u) + (px * pixel_delta_v);
 }
