@@ -1,37 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
+#include <memory>
 
+#include "utility.h"
 #include "color.h"
-#include "ray.h"
-#include "vector_3.h"
+#include "hittable.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
 
-static double sphere_check(const Point3& center, double radius, const Ray& r) {
-	auto oc = r.getOrigin() - center;
-	auto dir = r.getDirection();
-	auto r2 = radius * radius;
-
-	// https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere/ray-sphereintersection
-	auto a = dir.squared_magnitude();
-	auto half_b = oc.dot(dir);
-	auto c = oc.squared_magnitude() - r2;
-
-	auto discriminant = half_b * half_b - a * c;
-	if (discriminant < 0.0) {
-		return -1.0;
-	}
-	else {
-		return (-half_b - sqrt(discriminant)) / a;
-	}
-	
-}
-
-static Color ray_color(const Ray& r) {
-	auto t = sphere_check(Point3{ 0.0, 0.0, -1.0 }, 0.5, r);
-	if (t > 0.0) {
-		auto normal = (r.at(t) - Vector3(0.0, 0.0, -1.0)).normalized();
-		return 0.5 * Color(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0);
+static Color ray_color(const Ray& r, const Hittable& world) {
+	HitRecord record;
+	if (world.hit(r, 0.0, infinity, record)) {
+		return 0.5 * (record.normal + Color(1.0, 1.0, 1.0));
 	}
 
 	Vector3 unit_direction = r.getDirection().normalized();
@@ -39,7 +21,17 @@ static Color ray_color(const Ray& r) {
 	return Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a;
 }
 
+static void create_sphere(HittableList& world, double x, double y, double z, double r) {
+	world.add(std::make_shared<Sphere>(Point3(x, y, z), r));
+}
+
 int main() {
+	// World
+	HittableList world;
+	create_sphere(world, 0.0, 0.0, -1.0, 0.5);
+	create_sphere(world, 0.0, -100.5, -1, 100.0);
+
+	// Image
 	double aspect_ratio = 16.0 / 9.0;
 
 	int image_width = 400;
@@ -50,9 +42,11 @@ int main() {
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
 	double viewport_width = viewport_height * (static_cast<double>(image_width) / image_height);  
 
+	// Camera
 	double focal_length = 1.0;
 	auto camera_center = Point3(0, 0, 0);
 
+	// Viewport
 	auto viewport_u = Vector3(viewport_width, 0, 0);
 	auto viewport_v = Vector3(0, -viewport_height, 0);
 
@@ -62,6 +56,7 @@ int main() {
 	auto viewport_upper_left = camera_center - Vector3(0, 0, focal_length) - viewport_u / 2.0 - viewport_v / 2.0;
 	auto pixel_upper_left = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
 
+	// Render
 	std::ofstream output;
 	output.open("output.ppm");
 
@@ -74,7 +69,7 @@ int main() {
 			auto ray_direction = pixel_center - camera_center;
 			Ray r {camera_center, ray_direction};
 
-			Color pixel_color = ray_color(r);
+			Color pixel_color = ray_color(r, world);
 			write_color_256(output, pixel_color);
 		}
 	}
