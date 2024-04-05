@@ -28,14 +28,14 @@ void Camera::init()
 	image_height = static_cast<int>(image_width / aspect_ratio);
 	image_height = (image_height < 1) ? 1 : image_height;
 
-	double viewport_height = 2.0;  // Arbitrary
+	// Viewport
+	double focal_length = 1.0;
+	auto theta = degrees_to_radians(vfov);
+	auto h = tan(theta / 2.0);
+	auto viewport_height = 2.0 * h * focal_length;
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
 	double viewport_width = viewport_height * (static_cast<double>(image_width) / image_height);
 
-	// Camera
-	double focal_length = 1.0;
-
-	// Viewport
 	auto viewport_u = Vector3(viewport_width, 0, 0);
 	auto viewport_v = Vector3(0, -viewport_height, 0);
 

@@ -11,6 +11,7 @@ public:
 
 	Point3 center{ 0.0, 0.0, 0.0 };
 	double aspect_ratio = 1.0;
+	double vfov = 90.0;
 	int image_width = 100;
 	int samples_per_pixel = 10;
 	int max_bounces = 10;
