@@ -9,9 +9,13 @@ class Camera {
 public:
 	void render(const Hittable& world, std::ostream& out);
 
-	Point3 center{ 0.0, 0.0, 0.0 };
+	Point3 pos{ 0.0, 0.0, -1.0 };
+	Point3 look_at{ 0.0, 0.0, 0.0 };
+	Vector3 up{ 0.0, 1.0, 0.0 };
+
 	double aspect_ratio = 1.0;
 	double vfov = 90.0;
+	
 	int image_width = 100;
 	int samples_per_pixel = 10;
 	int max_bounces = 10;
@@ -26,4 +30,5 @@ private:
 	Point3 pixel_upper_left;
 	Vector3 pixel_delta_u;
 	Vector3 pixel_delta_v;
+	Vector3 basis_u, basis_v, basis_w;
 };

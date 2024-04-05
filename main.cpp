@@ -22,14 +22,13 @@ int main() {
 	auto left_mat = std::make_shared<Dielectric>(1.5);
 	auto right_mat = std::make_shared<Metal>(Color{ 0.8, 0.6, 0.2 }, 0.2);
 
-	auto R = cos(pi / 4.0);
 
 	// World
 	HittableList world;
 	create_sphere(world, 0.0, -100.5, -1, 100.0, ground_mat);
-	//create_sphere(world, 0.0, 0.0, -1.0, 0.5, center_mat);
-	create_sphere(world, -R, 0.0, -1.0, R, left_mat);
-	create_sphere(world, R, 0.0, -1.0, R, right_mat);
+	create_sphere(world, -1.0, 0.0, -1.0, 0.5, center_mat);
+	create_sphere(world, 0.0, 0.0, -1.0, 0.5, left_mat);
+	create_sphere(world, 1.0, 0.0, -1.0, 0.5, right_mat);
 
 	// Camera
 	Camera cam;
@@ -37,7 +36,10 @@ int main() {
 	cam.image_width = 400;
 	cam.max_bounces = 50;
 	cam.samples_per_pixel = 10;
-	cam.vfov = 90.0;
+	cam.vfov = 20.0;
+	cam.pos = { -2, 2, 1 };
+	cam.look_at = { 0.0, 0.0, -1.0 };
+	cam.up = { 0.0, 1.0, 0.0 };
 
 	std::ofstream output;
 	output.open("output.ppm");

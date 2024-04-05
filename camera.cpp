@@ -29,20 +29,24 @@ void Camera::init()
 	image_height = (image_height < 1) ? 1 : image_height;
 
 	// Viewport
-	double focal_length = 1.0;
+	double focal_length = (pos - look_at).magnitude();
 	auto theta = degrees_to_radians(vfov);
 	auto h = tan(theta / 2.0);
 	auto viewport_height = 2.0 * h * focal_length;
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
 	double viewport_width = viewport_height * (static_cast<double>(image_width) / image_height);
 
-	auto viewport_u = Vector3(viewport_width, 0, 0);
-	auto viewport_v = Vector3(0, -viewport_height, 0);
+	basis_w = (pos - look_at).normalized();
+	basis_u = up.cross(basis_w).normalized();
+	basis_v = basis_w.cross(basis_u);
+
+	auto viewport_u = viewport_width * basis_u;
+	auto viewport_v = viewport_height * -basis_v;
 
 	pixel_delta_u = viewport_u / image_width;
 	pixel_delta_v = viewport_v / image_height;
 
-	auto viewport_upper_left = center - Vector3(0, 0, focal_length) - viewport_u / 2.0 - viewport_v / 2.0;
+	auto viewport_upper_left = pos - (focal_length * basis_w) - viewport_u / 2.0 - viewport_v / 2.0;
 	pixel_upper_left = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
 }
 
@@ -71,7 +75,7 @@ Ray Camera::get_ray(int x, int y) const
 	auto pixel_center = pixel_upper_left + (pixel_delta_u * x) + (pixel_delta_v * y);
 	auto pixel_sample = pixel_center + pixel_random_sample();
 
-	auto ray_origin = center;
+	auto ray_origin = pos;
 	auto ray_direction = pixel_sample - ray_origin;
 
 	return { ray_origin, ray_direction };
