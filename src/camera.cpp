@@ -6,7 +6,7 @@ namespace {
 	Color background_color(const Ray& r) {
 		Vector3 unit_direction = r.getDirection().normalized();
 		auto a = (unit_direction.y + 1.0) * 0.5;
-		return Color(1.0, 0.0, 0.0) * (1.0 - a) + Color(1.0, 0.7, 0.0) * a;
+		return (1.0 - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
 	}
 
 	Color ray_color(const Ray& r, int bounces_left, const Hittable& world)

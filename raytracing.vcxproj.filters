@@ -5,104 +5,93 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{430dbd43-c961-46f7-8783-accb98c36125}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Hittables">
+      <UniqueIdentifier>{18c8f125-39d0-4080-9176-1c419f5b59ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Materials">
-      <UniqueIdentifier>{e38b0371-a386-4081-ba74-31ae1f777e10}</UniqueIdentifier>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{33434832-fcc5-4dc1-a330-1bd55866d993}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Hittables">
-      <UniqueIdentifier>{132493e3-19dc-4e4b-a46c-910dc046355e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Materials">
-      <UniqueIdentifier>{ec903e97-6d20-4bba-b4bc-a09b519ad64d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hittables">
-      <UniqueIdentifier>{c537348c-7fc4-4f05-8d97-5795ad88c090}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{88258214-a0da-4ed8-9b65-d97a69c449ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector_3.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\lambertian.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="color.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\metal.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="ray.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\dielectric.cpp">
+      <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="interval.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\hittable_list.cpp">
+      <Filter>Hittables</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\sphere.cpp">
+      <Filter>Hittables</Filter>
     </ClCompile>
-    <ClCompile Include="hittable_list.cpp">
-      <Filter>Source Files\Hittables</Filter>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="sphere.cpp">
-      <Filter>Source Files\Hittables</Filter>
+    <ClCompile Include="src\ray.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="lambertian.cpp">
-      <Filter>Source Files\Materials</Filter>
+    <ClCompile Include="src\interval.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="metal.cpp">
-      <Filter>Source Files\Materials</Filter>
+    <ClCompile Include="src\vector_3.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="dielectric.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\color.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector_3.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\metal.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\material.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="ray.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\lambertian.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="utility.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\dielectric.h">
+      <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="interval.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\hittable_list.h">
+      <Filter>Hittables</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\hittable.h">
+      <Filter>Hittables</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
-      <Filter>Header Files\Materials</Filter>
+    <ClInclude Include="src\sphere.h">
+      <Filter>Hittables</Filter>
     </ClInclude>
-    <ClInclude Include="lambertian.h">
-      <Filter>Header Files\Materials</Filter>
+    <ClInclude Include="src\camera.h">
+      <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="metal.h">
-      <Filter>Header Files\Materials</Filter>
+    <ClInclude Include="src\ray.h">
+      <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="hittable.h">
-      <Filter>Header Files\Hittables</Filter>
+    <ClInclude Include="src\interval.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="hittable_list.h">
-      <Filter>Header Files\Hittables</Filter>
+    <ClInclude Include="src\vector_3.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Header Files\Hittables</Filter>
+    <ClInclude Include="src\utility.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="dielectric.h">
-      <Filter>Header Files\Materials</Filter>
+    <ClInclude Include="src\color.h">
+      <Filter>Math</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="output.ppm" />
   </ItemGroup>
 </Project>
