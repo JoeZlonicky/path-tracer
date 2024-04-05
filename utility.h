@@ -40,3 +40,10 @@ inline Vector3 random_on_hemisphere(const Vector3& normal) {
 	if (on_unit_sphere.dot(normal) > 0.0) return on_unit_sphere;
 	return -on_unit_sphere;
 }
+
+inline Vector3 random_in_unit_disk() {
+	while (true) {
+		auto p = Vector3{ random_range(-1,1.0), random_range(-1, 1.0), 0.0 };
+		if (p.squared_magnitude() < 1.0) return p;
+	}
+}

@@ -29,10 +29,9 @@ void Camera::init()
 	image_height = (image_height < 1) ? 1 : image_height;
 
 	// Viewport
-	double focal_length = (pos - look_at).magnitude();
 	auto theta = degrees_to_radians(vfov);
 	auto h = tan(theta / 2.0);
-	auto viewport_height = 2.0 * h * focal_length;
+	auto viewport_height = 2.0 * h * focus_distance;
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
 	double viewport_width = viewport_height * (static_cast<double>(image_width) / image_height);
 
@@ -46,8 +45,12 @@ void Camera::init()
 	pixel_delta_u = viewport_u / image_width;
 	pixel_delta_v = viewport_v / image_height;
 
-	auto viewport_upper_left = pos - (focal_length * basis_w) - viewport_u / 2.0 - viewport_v / 2.0;
+	auto viewport_upper_left = pos - (focus_distance * basis_w) - viewport_u / 2.0 - viewport_v / 2.0;
 	pixel_upper_left = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
+
+	auto defocus_radius = focus_distance * tan(degrees_to_radians(defocus_angle / 2.0));
+	defocus_disk_u = basis_u * defocus_radius;
+	defocus_disk_v = basis_v * defocus_radius;
 }
 
 Color Camera::ray_color(const Ray& r, int bounces_left, const Hittable& world) const
@@ -75,15 +78,21 @@ Ray Camera::get_ray(int x, int y) const
 	auto pixel_center = pixel_upper_left + (pixel_delta_u * x) + (pixel_delta_v * y);
 	auto pixel_sample = pixel_center + pixel_random_sample();
 
-	auto ray_origin = pos;
+	auto ray_origin = (defocus_angle <= 0) ? pos : defocus_disk_sample();
 	auto ray_direction = pixel_sample - ray_origin;
 
 	return { ray_origin, ray_direction };
 }
 
-Vector3 Camera::pixel_random_sample() const
+Point3 Camera::pixel_random_sample() const
 {
 	auto px = -0.5 + random_normalized();
 	auto py = -0.5 + random_normalized();
 	return (px * pixel_delta_u) + (px * pixel_delta_v);
+}
+
+Point3 Camera::defocus_disk_sample() const
+{
+	auto p = random_in_unit_disk();
+	return pos + p.x * defocus_disk_u + p.y * defocus_disk_v;
 }

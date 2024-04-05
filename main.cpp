@@ -41,6 +41,9 @@ int main() {
 	cam.look_at = { 0.0, 0.0, -1.0 };
 	cam.up = { 0.0, 1.0, 0.0 };
 
+	cam.defocus_angle = 10.0;
+	cam.focus_distance = 3.4;
+
 	std::ofstream output;
 	output.open("output.ppm");
 	cam.render(world, output);
