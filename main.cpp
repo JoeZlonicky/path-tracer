@@ -17,7 +17,7 @@ static void create_sphere(HittableList& world, double x, double y, double z, dou
 int main() {
 	// Materials
 	auto ground_mat = std::make_shared<Lambertian>(Color{ 0.8, 0.8, 0.0 });
-	auto center_mat = std::make_shared<Dielectric>(1.5);
+	auto center_mat = std::make_shared<Lambertian>(Color{ 0.0, 0.8, 0.8 });
 	auto left_mat = std::make_shared<Dielectric>(1.5);
 	auto right_mat = std::make_shared<Metal>(Color{ 0.8, 0.6, 0.2 }, 0.2);
 
@@ -32,7 +32,7 @@ int main() {
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
 	cam.image_width = 400;
-	cam.max_bounces = 20;
+	cam.max_bounces = 50;
 	cam.samples_per_pixel = 10;
 
 	std::ofstream output;
