@@ -2,6 +2,33 @@
 
 #include "utility.h"
 
+namespace {
+	Color background_color(const Ray& r) {
+		Vector3 unit_direction = r.getDirection().normalized();
+		auto a = (unit_direction.y + 1.0) * 0.5;
+		return Color(1.0, 0.0, 0.0) * (1.0 - a) + Color(1.0, 0.7, 0.0) * a;
+	}
+
+	Color ray_color(const Ray& r, int bounces_left, const Hittable& world)
+	{
+		if (bounces_left <= 0) return { 0.0, 0.0, 0.0 };
+
+		HitRecord record;
+		static const double min_travel = 0.0001;
+		if (world.hit(r, Interval(min_travel, infinity), record)) {
+			Ray scattered;
+			Color attenuation;
+			if (record.mat->scatter(r, record, attenuation, scattered)) {
+				return attenuation * ray_color(scattered, bounces_left - 1, world);
+			}
+			return { 0, 0, 0 };
+		}
+
+		return background_color(r);
+		
+	}
+}
+
 void Camera::render(const Hittable& world, std::ostream& out)
 {
 	init();
@@ -51,26 +78,6 @@ void Camera::init()
 	auto defocus_radius = focus_distance * tan(degrees_to_radians(defocus_angle / 2.0));
 	defocus_disk_u = basis_u * defocus_radius;
 	defocus_disk_v = basis_v * defocus_radius;
-}
-
-Color Camera::ray_color(const Ray& r, int bounces_left, const Hittable& world) const
-{
-	if (bounces_left <= 0) return { 0.0, 0.0, 0.0 };
-
-	HitRecord record;
-	static const double min_travel = 0.0001;
-	if (world.hit(r, Interval(min_travel, infinity), record)) {
-		Ray scattered;
-		Color attenuation;
-		if (record.mat->scatter(r, record, attenuation, scattered)) {
-			return attenuation * ray_color(scattered, bounces_left - 1, world);
-		}
-		return { 0, 0, 0 };
-	}
-
-	Vector3 unit_direction = r.getDirection().normalized();
-	auto a = (unit_direction.y + 1.0) * 0.5;
-	return Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a;
 }
 
 Ray Camera::get_ray(int x, int y) const

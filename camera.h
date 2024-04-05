@@ -24,7 +24,6 @@ public:
 
 private:
 	void init();
-	Color ray_color(const Ray& r, int bounces_left, const Hittable& world) const;
 	Ray get_ray(int x, int y) const;
 	Point3 pixel_random_sample() const;
 	Point3 defocus_disk_sample() const;
