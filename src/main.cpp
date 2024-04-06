@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "camera.h"
+#include "color.h"
 #include "hittable_list.h"
 #include "sphere.h"
 #include "lambertian.h"
@@ -49,9 +50,9 @@ int main() {
 	// Camera
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
-	cam.image_width = 1200;
+	cam.image_width = 400;
 	cam.max_bounces = 50;
-	cam.samples_per_pixel = 500;
+	cam.samples_per_pixel = 50;
 
 	cam.vfov = 25.0;
 	cam.pos = { 0, 0.0, 10.0 };
@@ -62,9 +63,18 @@ int main() {
 	cam.focus_distance = 10.0;
 
 	// Render
+	std::vector<std::vector<Color>> image;
+	cam.render(world, image);
+
 	std::ofstream output;
 	output.open("output.ppm");
-	cam.render(world, output);
+	output << "P3\n" << image[0].size() << ' ' << image.size() << "\n255\n";
+	for (auto& row : image) {
+		for (auto& value : row) {
+			write_color_256(output, value);
+		}
+	}
+	
 	output.close();
 
 	return 0;

@@ -30,6 +30,7 @@
     <ClCompile Include="src\ray.cpp" />
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="src\vector_3.cpp" />
+    <ClCompile Include="thread_pool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="src\sphere.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vector_3.h" />
+    <ClInclude Include="thread_pool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

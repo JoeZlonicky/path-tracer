@@ -9,16 +9,11 @@ namespace {
 	}
 }
 
-void write_color_256(std::ostream& out, Color pixel_color, int samples_per_pixel)
+void write_color_256(std::ostream& out, Color pixel_color)
 {
 	auto r = pixel_color.x;
 	auto g = pixel_color.y;
 	auto b = pixel_color.z;
-
-	auto scale = 1.0 / samples_per_pixel;
-	r *= scale;
-	g *= scale;
-	b *= scale;
 
 	r = linear_to_gamma(r);
 	g = linear_to_gamma(g);

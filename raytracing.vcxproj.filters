@@ -14,7 +14,7 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{33434832-fcc5-4dc1-a330-1bd55866d993}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math">
+    <Filter Include="Utility">
       <UniqueIdentifier>{88258214-a0da-4ed8-9b65-d97a69c449ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -44,13 +44,16 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\interval.cpp">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\vector_3.cpp">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\color.cpp">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_pool.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,16 +85,19 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\interval.h">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\vector_3.h">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\utility.h">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\color.h">
-      <Filter>Math</Filter>
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_pool.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

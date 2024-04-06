@@ -1,5 +1,6 @@
 #include "camera.h"
 
+#include "thread_pool.h"
 #include "utility.h"
 
 namespace {
@@ -29,25 +30,33 @@ namespace {
 	}
 }
 
-void Camera::render(const Hittable& world, std::ostream& out)
+void Camera::render(const Hittable& world, std::vector<std::vector<Color>>& output)
 {
 	init();
 
-	out << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	output.resize(image_height);
+
+	auto render_pixel = [&](int x, int y) {
+		Color pixel_color{ 0.0, 0.0, 0.0 };
+		for (int sample = 0; sample < samples_per_pixel; ++sample) {
+			auto r = get_ray(x, y);
+			pixel_color += ray_color(r, max_bounces, world);
+		}
+		output[y][x] = pixel_color / samples_per_pixel;
+		};
+
+	ThreadPool pool{};
 
 	for (int y = 0; y < image_height; ++y) {
-		std::clog << "\rRows remaining: " << (image_height - y) << ' ' << std::flush;
+		std::vector<Color>& row = output[y];
+		row.resize(image_width);
+
 		for (int x = 0; x < image_width; ++x) {
-			Color pixel_color{ 0.0, 0.0, 0.0 };
-			for (int sample = 0; sample < samples_per_pixel; ++sample) {
-				auto r = get_ray(x, y);
-				pixel_color += ray_color(r, max_bounces, world);
-			}
-			
-			write_color_256(out, pixel_color, samples_per_pixel);
+			pool.queue_task(std::bind(render_pixel, x, y));
 		}
 	}
-	std::clog << "\rDone.            \n";
+
+	pool.wait_for_completion();
 }
 
 void Camera::init()

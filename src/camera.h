@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "color.h"
 #include "hittable.h"
 #include "ray.h"
@@ -7,7 +9,7 @@
 
 class Camera {
 public:
-	void render(const Hittable& world, std::ostream& out);
+	void render(const Hittable& world, std::vector<std::vector<Color>>& output);
 
 	Point3 pos{ 0.0, 0.0, -1.0 };
 	Point3 look_at{ 0.0, 0.0, 0.0 };
