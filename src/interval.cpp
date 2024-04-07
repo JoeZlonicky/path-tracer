@@ -2,7 +2,7 @@
 
 #include "utility.h"
 
-Interval::Interval() : min(infinity), max(-infinity)
+Interval::Interval() : min(Utility::infinity), max(-Utility::infinity)
 {
 }
 
@@ -28,5 +28,5 @@ double Interval::clamp(double x) const
 	return x;
 }
 
-const static Interval empty { infinity, -infinity };
-const static Interval universe{ -infinity, infinity };
+const static Interval empty{ Utility::infinity, -Utility::infinity };
+const static Interval universe{ -Utility::infinity, Utility::infinity };

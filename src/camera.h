@@ -2,14 +2,14 @@
 
 #include <vector>
 
-#include "color.h"
 #include "hittable.h"
+#include "image.h"
 #include "ray.h"
 
 
 class Camera {
 public:
-	void render(const Hittable& world, std::vector<std::vector<Color>>& output);
+	Image render(const Hittable& world);
 
 	Point3 pos{ 0.0, 0.0, -1.0 };
 	Point3 look_at{ 0.0, 0.0, 0.0 };
@@ -19,18 +19,25 @@ public:
 	double vfov = 90.0;
 	double defocus_angle = 0.0;
 	double focus_distance = 10.0;
-	
+
 	int image_width = 100;
 	int samples_per_pixel = 10;
 	int max_bounces = 10;
 
+	Color background_primary{ 1.0, 1.0, 1.0 };
+	Color background_secondary{ 0.5, 0.7, 1.0 };
+
 private:
 	void init();
-	Ray get_ray(int x, int y) const;
+
+	Ray calc_ray(int x, int y) const;
+	Color calc_ray_color(const Ray& r, int bounces_left, const Hittable& world);
+
 	Point3 pixel_random_sample() const;
 	Point3 defocus_disk_sample() const;
+	Color calc_background_color(Ray r) const;
 
-	int image_height;
+	int image_height = 0;
 	Point3 pixel_upper_left;
 	Vector3 pixel_delta_u;
 	Vector3 pixel_delta_v;

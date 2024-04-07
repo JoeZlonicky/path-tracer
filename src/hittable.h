@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ray.h"
 #include "interval.h"
 #include "material.h"
+#include "ray.h"
 
 class HitRecord {
 public:
@@ -10,7 +10,7 @@ public:
 	Vector3 normal;
 	std::shared_ptr<Material> mat;
 	double t;
-	bool is_front_face;
+	bool is_front_face = false;
 
 	void set_face_normal(const Ray& r, const Vector3& outward_normal) {
 		// NOTE: `outward_normal` is assumed to have unit length
