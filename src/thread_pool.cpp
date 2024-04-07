@@ -7,8 +7,21 @@ std::mutex ThreadPool::queue_mutex;
 ThreadPool::ThreadPool()
 {
 	auto n_threads = std::thread::hardware_concurrency();
-	for (auto i = 0; i < n_threads; ++i) {
+	for (unsigned int i = 0; i < n_threads; ++i) {
 		threads.emplace_back(&ThreadPool::work, this);
+	}
+}
+
+ThreadPool::~ThreadPool()
+{
+	{
+		std::unique_lock<std::mutex> lock{ queue_mutex };
+		should_terminate = true;
+	}
+
+	cv.notify_all();
+	for (auto& thread : threads) {
+		thread.join();
 	}
 }
 
@@ -21,21 +34,10 @@ void ThreadPool::queue_task(std::function<void()> task)
 	cv.notify_one();
 }
 
-void ThreadPool::wait_for_completion()
+int ThreadPool::get_n_remaining_tasks()
 {
-	while (true) {
-		std::unique_lock<std::mutex> lock{ queue_mutex };
-		if (task_queue.empty()) {
-			should_terminate = true;
-			break;
-		}
-	}
-
-	cv.notify_all();
-	for (auto& thread : threads) {
-		thread.join();
-	}
-	threads.clear();
+	std::unique_lock<std::mutex> lock{ queue_mutex };
+	return task_queue.size();
 }
 
 void ThreadPool::work()

@@ -67,7 +67,8 @@ int main() {
 
 	// Save
 	std::ofstream output;
-	output.open("output.ppm");
+	constexpr auto output_filepath = "output.ppm";
+	output.open(output_filepath);
 
 	output << "P3\n" << image.get_width() << ' ' << image.get_height() << "\n255\n";
 	for (auto& pixel : image.get_pixels()) {
@@ -75,5 +76,6 @@ int main() {
 	}
 
 	output.close();
+	std::clog << "Saved to " << output_filepath << std::endl;
 	return 0;
 }

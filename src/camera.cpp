@@ -20,13 +20,24 @@ Image Camera::render(const Hittable& world)
 
 	ThreadPool pool{};
 
+	std::clog << "Starting render..." << std::endl;
 	for (int y = 0; y < image_height; ++y) {
 		for (int x = 0; x < image_width; ++x) {
 			pool.queue_task(std::bind(render_pixel, x, y));
 		}
 	}
 
-	pool.wait_for_completion();
+	const auto total_n_tasks = image_width * image_height;
+	int current_percent = 0;
+	while (auto n = pool.get_n_remaining_tasks()) {
+		auto percent = static_cast<int>((1.0 - double(n) / total_n_tasks) * 100.0);
+		if (percent > current_percent) {
+			current_percent = percent;
+			std::clog << current_percent << '%' << std::endl;
+		}
+	}
+	std::clog << "Render completed!" << std::endl;
+
 	return output;
 }
 

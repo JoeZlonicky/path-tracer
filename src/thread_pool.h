@@ -1,20 +1,20 @@
 #pragma once
 
 #include <functional>
-#include <queue>
 #include <mutex>
+#include <queue>
 
 // Based off: https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
 class ThreadPool {
 public:
 	ThreadPool();
-	~ThreadPool() = default;
+	~ThreadPool();
 
 	ThreadPool(const ThreadPool&) = delete;
 	ThreadPool& operator=(const ThreadPool&) = delete;
 
 	void queue_task(std::function<void()> task);
-	void wait_for_completion();
+	int get_n_remaining_tasks();
 
 private:
 	void work();
