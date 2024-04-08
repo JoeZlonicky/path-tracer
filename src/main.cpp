@@ -70,6 +70,7 @@ int main() {
 	constexpr auto output_filepath = "output.ppm";
 	output.open(output_filepath);
 
+	std::clog << "Saving output..." << std::endl;
 	output << "P3\n" << image.get_width() << ' ' << image.get_height() << "\n255\n";
 	for (auto& pixel : image.get_pixels()) {
 		Utility::write_color_256(output, pixel);

@@ -18,26 +18,29 @@ Image Camera::render(const Hittable& world)
 		output.set_pixel(x, y, pixel_color / samples_per_pixel);
 		};
 
-	ThreadPool pool{};
-
 	std::clog << "Starting render..." << std::endl;
-	for (int y = 0; y < image_height; ++y) {
-		for (int x = 0; x < image_width; ++x) {
-			pool.queue_task(std::bind(render_pixel, x, y));
+	{
+		ThreadPool pool{};
+		for (int y = 0; y < image_height; ++y) {
+			for (int x = 0; x < image_width; ++x) {
+				pool.queue_task(std::bind(render_pixel, x, y));
+			}
+		}
+
+		const auto total_n_tasks = image_width * image_height;
+		int current_percent = 0;
+		// Note that when there are 0 remaining tasks, the threads are still wrapping up their work
+		// The work will be guarenteed to be finished when the thread pool leaves scope, as all threads are joined
+		while (auto n = pool.get_n_remaining_tasks()) {
+			auto percent = static_cast<int>((1.0 - double(n) / total_n_tasks) * 100.0);
+			if (percent > current_percent) {
+				current_percent = percent;
+				std::clog << current_percent << '%' << std::endl;
+			}
 		}
 	}
 
-	const auto total_n_tasks = image_width * image_height;
-	int current_percent = 0;
-	while (auto n = pool.get_n_remaining_tasks()) {
-		auto percent = static_cast<int>((1.0 - double(n) / total_n_tasks) * 100.0);
-		if (percent > current_percent) {
-			current_percent = percent;
-			std::clog << current_percent << '%' << std::endl;
-		}
-	}
 	std::clog << "Render completed!" << std::endl;
-
 	return output;
 }
 
