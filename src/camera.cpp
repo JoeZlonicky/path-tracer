@@ -20,10 +20,10 @@ Image Camera::render(const Hittable& world)
 
 	std::clog << "Starting render..." << std::endl;
 	{
-		ThreadPool pool{};
+		GridThreadPool pool{ render_pixel };
 		for (int y = 0; y < image_height; ++y) {
 			for (int x = 0; x < image_width; ++x) {
-				pool.queue_task(std::bind(render_pixel, x, y));
+				pool.queue_task({ x, y });
 			}
 		}
 

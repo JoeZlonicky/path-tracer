@@ -3,25 +3,30 @@
 #include <functional>
 #include <mutex>
 #include <queue>
+#include <utility>
 
+// Thread pool for performing a multithreaded task on a grid of coordinates
 // Based off: https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
-class ThreadPool {
+class GridThreadPool {
 public:
-	ThreadPool();
-	~ThreadPool();
+	GridThreadPool(std::function<void(int x, int y)> function);
+	~GridThreadPool();
 
-	ThreadPool(const ThreadPool&) = delete;
-	ThreadPool& operator=(const ThreadPool&) = delete;
+	GridThreadPool(const GridThreadPool&) = delete;
+	GridThreadPool& operator=(const GridThreadPool&) = delete;
 
-	void queue_task(std::function<void()> task);
+	void queue_task(std::pair<int, int> coord);
 	int get_n_remaining_tasks();
 
 private:
 	void work();
 
-	std::vector<std::thread> threads{};
-	std::queue<std::function<void()>> task_queue{};
 	static std::mutex queue_mutex;
+
+	std::vector<std::thread> _threads{};
 	std::condition_variable cv;
-	bool should_terminate = false;
+	bool _should_terminate = false;
+
+	std::function<void(int x, int y)> _func;
+	std::queue<std::pair<int, int>> _coord_queue{};
 };

@@ -2,57 +2,57 @@
 
 #include <mutex>
 
-std::mutex ThreadPool::queue_mutex;
+std::mutex GridThreadPool::queue_mutex;
 
-ThreadPool::ThreadPool()
+GridThreadPool::GridThreadPool(std::function<void(int x, int y)> function) : _func(function)
 {
 	auto n_threads = std::thread::hardware_concurrency();
 	for (unsigned int i = 0; i < n_threads; ++i) {
-		threads.emplace_back(&ThreadPool::work, this);
+		_threads.emplace_back(&GridThreadPool::work, this);
 	}
 }
 
-ThreadPool::~ThreadPool()
+GridThreadPool::~GridThreadPool()
 {
 	{
 		std::unique_lock<std::mutex> lock{ queue_mutex };
-		should_terminate = true;
+		_should_terminate = true;
 	}
 
 	cv.notify_all();
-	for (auto& thread : threads) {
+	for (auto& thread : _threads) {
 		thread.join();
 	}
 }
 
-void ThreadPool::queue_task(std::function<void()> task)
+void GridThreadPool::queue_task(std::pair<int, int> coord)
 {
 	{
 		std::unique_lock<std::mutex> lock{ queue_mutex };
-		task_queue.push(task);
+		_coord_queue.push(coord);
 	}
 	cv.notify_one();
 }
 
-int ThreadPool::get_n_remaining_tasks()
+int GridThreadPool::get_n_remaining_tasks()
 {
 	std::unique_lock<std::mutex> lock{ queue_mutex };
-	return task_queue.size();
+	return _coord_queue.size();
 }
 
-void ThreadPool::work()
+void GridThreadPool::work()
 {
 	while (true) {
-		std::function<void()> task;
+		std::pair<int, int> coord;
 		{
 			std::unique_lock<std::mutex> lock{ queue_mutex };
-			cv.wait(lock, [this] { return !task_queue.empty() || should_terminate; });
+			cv.wait(lock, [this] { return !_coord_queue.empty() || _should_terminate; });
 
-			if (should_terminate) return;
+			if (_should_terminate) return;
 
-			task = task_queue.front();
-			task_queue.pop();
+			coord = _coord_queue.front();
+			_coord_queue.pop();
 		}
-		task();
+		_func(coord.first, coord.second);
 	}
 }

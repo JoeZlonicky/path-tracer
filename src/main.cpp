@@ -80,6 +80,7 @@ int main() {
 	output.close();
 	std::clog << "Saved to " << output_filepath << std::endl;
 
+	// Display window
 	std::clog << "Displaying output window..." << std::endl;
 	Window window{};
 	bool success = window.init();
