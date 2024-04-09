@@ -31,6 +31,7 @@
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="src\thread_pool.cpp" />
     <ClCompile Include="src\vector_3.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
@@ -47,8 +48,15 @@
     <ClInclude Include="src\thread_pool.h" />
     <ClInclude Include="src\utility.h" />
     <ClInclude Include="src\vector_3.h" />
+    <ClInclude Include="src\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -103,6 +111,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\include;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\lib\x64;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -141,6 +153,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

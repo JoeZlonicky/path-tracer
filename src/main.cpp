@@ -10,6 +10,7 @@
 #include "metal.h"
 #include "sphere.h"
 #include "utility.h"
+#include "window.h"
 
 namespace {
 	void create_sphere(HittableList& scene, const Point3& position, double r, std::shared_ptr<Material> material) {
@@ -50,7 +51,7 @@ int main() {
 	// Camera
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
-	cam.image_width = 400;
+	cam.image_width = 1080;
 	cam.max_bounces = 50;
 	cam.samples_per_pixel = 50;
 
@@ -78,5 +79,20 @@ int main() {
 
 	output.close();
 	std::clog << "Saved to " << output_filepath << std::endl;
+
+	std::clog << "Displaying output window..." << std::endl;
+	Window window{};
+	bool success = window.init();
+	if (!success) return 1;
+
+	success = window.load_image(output_filepath);
+	if (!success) return 1;
+
+	window.resize_window_to_image_size();
+
+	while (window.should_keep_open()) {
+		window.draw();
+	}
+
 	return 0;
 }

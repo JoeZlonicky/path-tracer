@@ -20,6 +20,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{7ef604a4-3409-452a-9427-08271af34ed8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{09c214a5-aeb9-4574-bb07-51313da458a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -57,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="src\image.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,8 +108,19 @@
     <ClInclude Include="src\thread_pool.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\window.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
+      <Filter>External</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
+      <Filter>External</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
