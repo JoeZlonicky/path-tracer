@@ -55,7 +55,7 @@ Vector3& Vector3::operator-=(const Vector3& v) {
 }
 
 void Vector3::normalize() {
-	*this /= magnitude();
+	*this = this->normalized();
 }
 
 Vector3 Vector3::normalized() const {

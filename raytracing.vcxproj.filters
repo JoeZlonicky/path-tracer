@@ -64,6 +64,9 @@
     <ClCompile Include="src\window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\aabb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\metal.h">
@@ -110,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="src\window.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\aabb.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
