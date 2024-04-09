@@ -51,7 +51,7 @@ int main() {
 	// Camera
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
-	cam.image_width = 1080;
+	cam.image_width = 400;
 	cam.max_bounces = 50;
 	cam.samples_per_pixel = 50;
 
@@ -83,7 +83,7 @@ int main() {
 	// Display window
 	std::clog << "Displaying output window..." << std::endl;
 	Window window{};
-	bool success = window.init();
+	bool success = window.init("Output");
 	if (!success) return 1;
 
 	success = window.load_image(output_filepath);

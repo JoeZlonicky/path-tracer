@@ -37,11 +37,13 @@ private:
 	Point3 defocus_disk_sample() const;
 	Color calc_background_color(Ray r) const;
 
-	int image_height = 0;
-	Point3 pixel_upper_left;
-	Vector3 pixel_delta_u;
-	Vector3 pixel_delta_v;
-	Vector3 basis_u, basis_v, basis_w;
-	Vector3 defocus_disk_u;
-	Vector3 defocus_disk_v;
+	int _image_height = 0;
+	Point3 _pixel_upper_left;
+	Vector3 _pixel_delta_u;
+	Vector3 _pixel_delta_v;
+	Vector3 _basis_u;
+	Vector3 _basis_v;
+	Vector3 _basis_w;
+	Vector3 _defocus_disk_u;
+	Vector3 _defocus_disk_v;
 };

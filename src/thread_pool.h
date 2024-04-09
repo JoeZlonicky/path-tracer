@@ -21,10 +21,10 @@ public:
 private:
 	void work();
 
-	static std::mutex queue_mutex;
+	std::mutex _queue_mutex;
 
 	std::vector<std::thread> _threads{};
-	std::condition_variable cv;
+	std::condition_variable _cv;
 	bool _should_terminate = false;
 
 	std::function<void(int x, int y)> _func;

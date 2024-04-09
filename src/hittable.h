@@ -6,9 +6,9 @@
 
 class HitRecord {
 public:
-	Point3 p;
+	Point3 position;
 	Vector3 normal;
-	std::shared_ptr<Material> mat;
+	std::shared_ptr<Material> material;
 	double t;
 	bool is_front_face = false;
 

@@ -11,14 +11,14 @@ Window::~Window()
 	if (SDL_WasInit(SDL_INIT_VIDEO)) SDL_Quit();
 }
 
-bool Window::init()
+bool Window::init(std::string window_name)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		std::clog << "Failed to initialize SDL2. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
-	_window = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1, 1, SDL_WINDOW_SHOWN);
+	_window = SDL_CreateWindow(window_name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1, 1, SDL_WINDOW_SHOWN);
 
 	if (_window == nullptr) {
 		std::clog << "Failed to create SDL2 window. Error: " << SDL_GetError() << std::endl;

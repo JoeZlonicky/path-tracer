@@ -2,8 +2,6 @@
 
 #include <mutex>
 
-std::mutex GridThreadPool::queue_mutex;
-
 GridThreadPool::GridThreadPool(std::function<void(int x, int y)> function) : _func(function)
 {
 	auto n_threads = std::thread::hardware_concurrency();
@@ -15,11 +13,11 @@ GridThreadPool::GridThreadPool(std::function<void(int x, int y)> function) : _fu
 GridThreadPool::~GridThreadPool()
 {
 	{
-		std::unique_lock<std::mutex> lock{ queue_mutex };
+		std::unique_lock<std::mutex> lock{ _queue_mutex };
 		_should_terminate = true;
 	}
 
-	cv.notify_all();
+	_cv.notify_all();
 	for (auto& thread : _threads) {
 		thread.join();
 	}
@@ -28,16 +26,16 @@ GridThreadPool::~GridThreadPool()
 void GridThreadPool::queue_task(std::pair<int, int> coord)
 {
 	{
-		std::unique_lock<std::mutex> lock{ queue_mutex };
+		std::unique_lock<std::mutex> lock{ _queue_mutex };
 		_coord_queue.push(coord);
 	}
-	cv.notify_one();
+	_cv.notify_one();
 }
 
 int GridThreadPool::get_n_remaining_tasks()
 {
-	std::unique_lock<std::mutex> lock{ queue_mutex };
-	return _coord_queue.size();
+	std::unique_lock<std::mutex> lock{ _queue_mutex };
+	return static_cast<int>(_coord_queue.size());
 }
 
 void GridThreadPool::work()
@@ -45,8 +43,8 @@ void GridThreadPool::work()
 	while (true) {
 		std::pair<int, int> coord;
 		{
-			std::unique_lock<std::mutex> lock{ queue_mutex };
-			cv.wait(lock, [this] { return !_coord_queue.empty() || _should_terminate; });
+			std::unique_lock<std::mutex> lock{ _queue_mutex };
+			_cv.wait(lock, [this] { return !_coord_queue.empty() || _should_terminate; });
 
 			if (_should_terminate) return;
 
