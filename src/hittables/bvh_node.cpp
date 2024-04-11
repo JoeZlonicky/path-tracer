@@ -1,8 +1,14 @@
 #include "bvh_node.h"
 
-#include "utility.h"
-
 #include <algorithm>
+#include <memory>
+#include <vector>
+
+#include "../math/aabb.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
+#include "hittable.h"
+#include "hittable_list.h"
 
 namespace {
 	bool box_compare(const std::shared_ptr<Hittable> a, const std::shared_ptr<Hittable> b, int axis_index) {
@@ -24,26 +30,22 @@ namespace {
 	}
 }
 
-BVHNode::BVHNode(HittableList list) : BVHNode(list.objects, 0, list.objects.size())
-{
+BVHNode::BVHNode(HittableList list) : BVHNode(list.objects, 0, list.objects.size()) {
 }
 
-BVHNode::BVHNode(std::vector<std::shared_ptr<Hittable>>& objects, size_t start, size_t end)
-{
+BVHNode::BVHNode(std::vector<std::shared_ptr<Hittable>>& objects, size_t start, size_t end) {
 	_bbox = AABB::empty;
-	for (size_t i = start; i < end; ++i) {
-		_bbox = { _bbox, objects[i]->bounding_box() };
+	for(size_t i = start; i < end; ++i) {
+		_bbox = {_bbox, objects[i]->bounding_box()};
 	}
 
 	size_t span = end - start;
-	if (span == 1) {
+	if(span == 1) {
 		_left = _right = objects[start];
-	}
-	else if (span == 2) {
+	} else if(span == 2) {
 		_left = objects[start];
 		_right = objects[start + 1];
-	}
-	else {
+	} else {
 		int axis = _bbox.longest_axis();
 		auto comperator = (axis == 0) ? box_x_compare
 			: (axis == 1) ? box_y_compare
@@ -56,9 +58,8 @@ BVHNode::BVHNode(std::vector<std::shared_ptr<Hittable>>& objects, size_t start, 
 	}
 }
 
-bool BVHNode::hit(const Ray& r, Interval ray_t, HitRecord& record) const
-{
-	if (!_bbox.hit(r, ray_t)) return false;
+bool BVHNode::hit(const Ray& r, Interval ray_t, HitRecord& record) const {
+	if(!_bbox.intersect(r, ray_t)) return false;
 
 	auto hit_left = _left->hit(r, ray_t, record);
 	auto hit_right = _right->hit(r, ray_t, record);
@@ -66,7 +67,6 @@ bool BVHNode::hit(const Ray& r, Interval ray_t, HitRecord& record) const
 	return hit_left || hit_right;
 }
 
-AABB BVHNode::bounding_box() const
-{
+AABB BVHNode::bounding_box() const {
 	return _bbox;
 }

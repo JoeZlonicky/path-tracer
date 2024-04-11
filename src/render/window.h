@@ -1,9 +1,8 @@
 #pragma once
 
+#include <SDL_surface.h>
+#include <SDL_video.h>
 #include <string>
-
-class SDL_Window;
-class SDL_Surface;
 
 class Window {
 public:

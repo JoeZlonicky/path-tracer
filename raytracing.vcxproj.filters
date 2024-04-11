@@ -1,138 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Materials">
-      <UniqueIdentifier>{430dbd43-c961-46f7-8783-accb98c36125}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hittables">
-      <UniqueIdentifier>{18c8f125-39d0-4080-9176-1c419f5b59ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{33434832-fcc5-4dc1-a330-1bd55866d993}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility">
-      <UniqueIdentifier>{88258214-a0da-4ed8-9b65-d97a69c449ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{7ef604a4-3409-452a-9427-08271af34ed8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External">
-      <UniqueIdentifier>{09c214a5-aeb9-4574-bb07-51313da458a1}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="src\utility\image.cpp" />
+    <ClCompile Include="src\utility\thread_pool.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\aabb.cpp" />
+    <ClCompile Include="src\math\interval.cpp" />
+    <ClCompile Include="src\math\vector_3.cpp" />
+    <ClCompile Include="src\materials\dielectric.cpp" />
+    <ClCompile Include="src\materials\lambertian.cpp" />
+    <ClCompile Include="src\materials\metal.cpp" />
+    <ClCompile Include="src\hittables\bvh_node.cpp" />
+    <ClCompile Include="src\hittables\hittable_list.cpp" />
+    <ClCompile Include="src\hittables\sphere.cpp" />
+    <ClCompile Include="src\render\camera.cpp" />
+    <ClCompile Include="src\math\ray.cpp" />
+    <ClCompile Include="src\render\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lambertian.cpp">
-      <Filter>Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="src\metal.cpp">
-      <Filter>Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dielectric.cpp">
-      <Filter>Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hittable_list.cpp">
-      <Filter>Hittables</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sphere.cpp">
-      <Filter>Hittables</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ray.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\interval.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vector_3.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\thread_pool.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\image.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\window.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bvh_node.cpp">
-      <Filter>Hittables</Filter>
-    </ClCompile>
-    <ClCompile Include="src\aabb.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
+    <ClInclude Include="src\utility\image.h" />
+    <ClInclude Include="src\utility\thread_pool.h" />
+    <ClInclude Include="src\utility\utility.h" />
+    <ClInclude Include="src\math\vector_3.h" />
+    <ClInclude Include="src\math\aabb.h" />
+    <ClInclude Include="src\math\interval.h" />
+    <ClInclude Include="src\materials\dielectric.h" />
+    <ClInclude Include="src\materials\lambertian.h" />
+    <ClInclude Include="src\materials\material.h" />
+    <ClInclude Include="src\materials\metal.h" />
+    <ClInclude Include="src\hittables\bvh_node.h" />
+    <ClInclude Include="src\hittables\hittable.h" />
+    <ClInclude Include="src\hittables\hittable_list.h" />
+    <ClInclude Include="src\hittables\sphere.h" />
+    <ClInclude Include="src\render\camera.h" />
+    <ClInclude Include="src\math\ray.h" />
+    <ClInclude Include="src\render\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\metal.h">
-      <Filter>Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\material.h">
-      <Filter>Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lambertian.h">
-      <Filter>Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\dielectric.h">
-      <Filter>Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hittable_list.h">
-      <Filter>Hittables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hittable.h">
-      <Filter>Hittables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sphere.h">
-      <Filter>Hittables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\camera.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ray.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\interval.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vector_3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\image.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\thread_pool.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\window.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\aabb.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\bvh_node.h">
-      <Filter>Hittables</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
-      <Filter>External</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
-      <Filter>External</Filter>
-    </CopyFileToFolders>
+    <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />
+    <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll" />
   </ItemGroup>
 </Project>

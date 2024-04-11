@@ -1,9 +1,12 @@
 #pragma once
 
-#include "hittable.h"
-
 #include <memory>
 #include <vector>
+
+#include "../math/aabb.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
+#include "hittable.h"
 
 class HittableList : public Hittable {
 public:

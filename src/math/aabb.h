@@ -19,7 +19,7 @@ public:
 	AABB(const Point3& a, const Point3& b);
 	AABB(const AABB& a, const AABB& b);
 
-	bool hit(const Ray& r, Interval ray_t) const;
+	bool intersect(const Ray& r, Interval ray_t) const;
 	int longest_axis() const;
 
 	static AABB empty, universe;

@@ -19,40 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\aabb.cpp" />
-    <ClCompile Include="src\bvh_node.cpp" />
-    <ClCompile Include="src\camera.cpp" />
-    <ClCompile Include="src\dielectric.cpp" />
-    <ClCompile Include="src\hittable_list.cpp" />
-    <ClCompile Include="src\image.cpp" />
-    <ClCompile Include="src\interval.cpp" />
-    <ClCompile Include="src\lambertian.cpp" />
+    <ClCompile Include="src\math\aabb.cpp" />
+    <ClCompile Include="src\hittables\bvh_node.cpp" />
+    <ClCompile Include="src\render\camera.cpp" />
+    <ClCompile Include="src\materials\dielectric.cpp" />
+    <ClCompile Include="src\hittables\hittable_list.cpp" />
+    <ClCompile Include="src\utility\image.cpp" />
+    <ClCompile Include="src\math\interval.cpp" />
+    <ClCompile Include="src\materials\lambertian.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\metal.cpp" />
-    <ClCompile Include="src\ray.cpp" />
-    <ClCompile Include="src\sphere.cpp" />
-    <ClCompile Include="src\thread_pool.cpp" />
-    <ClCompile Include="src\vector_3.cpp" />
-    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\materials\metal.cpp" />
+    <ClCompile Include="src\math\ray.cpp" />
+    <ClCompile Include="src\hittables\sphere.cpp" />
+    <ClCompile Include="src\utility\thread_pool.cpp" />
+    <ClCompile Include="src\math\vector_3.cpp" />
+    <ClCompile Include="src\render\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\aabb.h" />
-    <ClInclude Include="src\bvh_node.h" />
-    <ClInclude Include="src\camera.h" />
-    <ClInclude Include="src\dielectric.h" />
-    <ClInclude Include="src\hittable.h" />
-    <ClInclude Include="src\hittable_list.h" />
-    <ClInclude Include="src\image.h" />
-    <ClInclude Include="src\interval.h" />
-    <ClInclude Include="src\lambertian.h" />
-    <ClInclude Include="src\material.h" />
-    <ClInclude Include="src\metal.h" />
-    <ClInclude Include="src\ray.h" />
-    <ClInclude Include="src\sphere.h" />
-    <ClInclude Include="src\thread_pool.h" />
-    <ClInclude Include="src\utility.h" />
-    <ClInclude Include="src\vector_3.h" />
-    <ClInclude Include="src\window.h" />
+    <ClInclude Include="src\math\aabb.h" />
+    <ClInclude Include="src\hittables\bvh_node.h" />
+    <ClInclude Include="src\render\camera.h" />
+    <ClInclude Include="src\materials\dielectric.h" />
+    <ClInclude Include="src\hittables\hittable.h" />
+    <ClInclude Include="src\hittables\hittable_list.h" />
+    <ClInclude Include="src\utility\image.h" />
+    <ClInclude Include="src\math\interval.h" />
+    <ClInclude Include="src\materials\lambertian.h" />
+    <ClInclude Include="src\materials\material.h" />
+    <ClInclude Include="src\materials\metal.h" />
+    <ClInclude Include="src\math\ray.h" />
+    <ClInclude Include="src\hittables\sphere.h" />
+    <ClInclude Include="src\utility\thread_pool.h" />
+    <ClInclude Include="src\utility\utility.h" />
+    <ClInclude Include="src\math\vector_3.h" />
+    <ClInclude Include="src\render\window.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
@@ -61,7 +61,6 @@
     <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <None Include="README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -118,6 +117,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\include;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\lib\x64;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

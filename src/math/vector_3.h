@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include <fstream>
 
 struct Vector3 {
 	union {
@@ -9,7 +9,7 @@ struct Vector3 {
 			double y;
 			double z;
 		};
-		double components[3] = { 0.f };
+		double components[3] = {0.f};
 	};
 
 	Vector3();

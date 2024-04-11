@@ -2,25 +2,29 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <SDL_error.h>
+#include <SDL_events.h>
 #include <SDL_image.h>
+#include <SDL_pixels.h>
+#include <SDL_surface.h>
+#include <SDL_video.h>
+#include <string>
 
 
-Window::~Window()
-{
-	if (_window != nullptr) SDL_DestroyWindow(_window);
-	if (SDL_WasInit(SDL_INIT_VIDEO)) SDL_Quit();
+Window::~Window() {
+	if(_window != nullptr) SDL_DestroyWindow(_window);
+	if(SDL_WasInit(SDL_INIT_VIDEO)) SDL_Quit();
 }
 
-bool Window::init(std::string window_name)
-{
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+bool Window::init(std::string window_name) {
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
 		std::clog << "Failed to initialize SDL2. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
 	_window = SDL_CreateWindow(window_name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1, 1, SDL_WINDOW_SHOWN);
 
-	if (_window == nullptr) {
+	if(_window == nullptr) {
 		std::clog << "Failed to create SDL2 window. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
@@ -30,16 +34,15 @@ bool Window::init(std::string window_name)
 	return true;
 }
 
-bool Window::load_image(std::string file_path)
-{
+bool Window::load_image(std::string file_path) {
 	SDL_Surface* loaded_surface = IMG_Load(file_path.c_str());
-	if (loaded_surface == nullptr) {
+	if(loaded_surface == nullptr) {
 		std::clog << "Failed to load image at path '" << file_path << "'. Error: " << IMG_GetError() << std::endl;
 		return false;
 	}
 
 	SDL_Surface* optimized_surface = SDL_ConvertSurface(loaded_surface, _screen->format, 0);
-	if (optimized_surface == nullptr) {
+	if(optimized_surface == nullptr) {
 		std::clog << "Failed to optimize image at path '" << file_path << "'. Error: " << SDL_GetError() << std::endl;
 		SDL_FreeSurface(loaded_surface);
 		return false;
@@ -50,18 +53,16 @@ bool Window::load_image(std::string file_path)
 	return true;
 }
 
-bool Window::should_keep_open()
-{
+bool Window::should_keep_open() {
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) return false;
+	while(SDL_PollEvent(&e)) {
+		if(e.type == SDL_QUIT) return false;
 	}
 	return true;
 }
 
-void Window::resize_window_to_image_size()
-{
-	if (_image == nullptr) {
+void Window::resize_window_to_image_size() {
+	if(_image == nullptr) {
 		std::clog << "Unable to resize window to image size. No image set." << std::endl;
 		return;
 	}
@@ -71,10 +72,9 @@ void Window::resize_window_to_image_size()
 	_screen = SDL_GetWindowSurface(_window);
 }
 
-void Window::draw()
-{
+void Window::draw() {
 	SDL_FillRect(_screen, nullptr, SDL_MapRGB(_screen->format, 0x00, 0x00, 0x00));
-	if (_image) {
+	if(_image) {
 		SDL_BlitSurface(_image, nullptr, _screen, nullptr);
 	}
 	SDL_UpdateWindowSurface(_window);

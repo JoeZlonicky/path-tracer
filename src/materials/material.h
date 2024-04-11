@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ray.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
 
 class HitRecord;
 

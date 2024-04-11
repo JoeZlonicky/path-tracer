@@ -1,7 +1,11 @@
 #include "dielectric.h"
 
-#include "hittable.h"
-#include "utility.h"
+#include <cmath>
+
+#include "../hittables/hittable.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
+#include "../utility/utility.h"
 
 namespace {
 	double reflectance(double cosine, double refraction_ratio) {
@@ -12,13 +16,11 @@ namespace {
 	}
 }
 
-Dielectric::Dielectric(double refraction_index) : _refraction_index(refraction_index)
-{
+Dielectric::Dielectric(double refraction_index) : _refraction_index(refraction_index) {
 }
 
-bool Dielectric::scatter(const Ray& r, const HitRecord& record, Color& attenuation_out, Ray& scattered_out) const
-{
-	attenuation_out = Color{ 1.0, 1.0, 1.0 };
+bool Dielectric::scatter(const Ray& r, const HitRecord& record, Color& attenuation_out, Ray& scattered_out) const {
+	attenuation_out = Color{1.0, 1.0, 1.0};
 	double refraction_ratio = record.is_front_face ? (1.0 / _refraction_index) : _refraction_index;
 
 	auto unit_direction = r.getDirection().normalized();
@@ -28,13 +30,12 @@ bool Dielectric::scatter(const Ray& r, const HitRecord& record, Color& attenuati
 	auto can_refract = refraction_ratio * sin_theta <= 1.0;
 	Vector3 direction;
 
-	if (can_refract && reflectance(cos_theta, refraction_ratio) <= Utility::random_normalized()) {
+	if(can_refract && reflectance(cos_theta, refraction_ratio) <= Utility::random_normalized()) {
 		direction = unit_direction.refract(record.normal, refraction_ratio);
-	}
-	else {
+	} else {
 		direction = unit_direction.reflect(record.normal);
 	}
 
-	scattered_out = { record.position, direction };
+	scattered_out = {record.position, direction};
 	return true;
 }

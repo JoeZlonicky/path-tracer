@@ -1,9 +1,12 @@
 #pragma once
 
-#include "aabb.h"
-#include "interval.h"
-#include "material.h"
-#include "ray.h"
+#include <memory>
+
+#include "../materials/material.h"
+#include "../math/aabb.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
 
 class HitRecord {
 public:

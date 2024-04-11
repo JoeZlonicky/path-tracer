@@ -3,7 +3,9 @@
 #include <functional>
 #include <mutex>
 #include <queue>
+#include <thread>
 #include <utility>
+#include <vector>
 
 // Thread pool for performing a multithreaded task on a grid of coordinates
 // Based off: https://stackoverflow.com/questions/15752659/thread-pooling-in-c11

@@ -1,17 +1,24 @@
 #include "camera.h"
 
-#include "thread_pool.h"
-#include "utility.h"
+#include <cmath>
+#include <iostream>
 
-Image Camera::render(const Hittable& world)
-{
+#include "../hittables/hittable.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
+#include "../utility/image.h"
+#include "../utility/thread_pool.h"
+#include "../utility/utility.h"
+
+Image Camera::render(const Hittable& world) {
 	init();
 
-	Image output{ image_width, _image_height };
+	Image output{image_width, _image_height};
 
 	auto render_pixel = [&](int x, int y) {
-		Color pixel_color{ 0.0, 0.0, 0.0 };
-		for (int sample = 0; sample < samples_per_pixel; ++sample) {
+		Color pixel_color{0.0, 0.0, 0.0};
+		for(int sample = 0; sample < samples_per_pixel; ++sample) {
 			auto r = calc_ray(x, y);
 			pixel_color += calc_ray_color(r, max_bounces, world);
 		}
@@ -20,10 +27,10 @@ Image Camera::render(const Hittable& world)
 
 	std::clog << "Starting render..." << std::endl;
 	{
-		GridThreadPool pool{ render_pixel };
-		for (int y = 0; y < _image_height; ++y) {
-			for (int x = 0; x < image_width; ++x) {
-				pool.queue_task({ x, y });
+		GridThreadPool pool{render_pixel};
+		for(int y = 0; y < _image_height; ++y) {
+			for(int x = 0; x < image_width; ++x) {
+				pool.queue_task({x, y});
 			}
 		}
 
@@ -31,9 +38,9 @@ Image Camera::render(const Hittable& world)
 		int current_percent = 0;
 		// Note that when there are 0 remaining tasks, the threads are still wrapping up their work
 		// The work will be guarenteed to be finished when the thread pool leaves scope, as all threads are joined
-		while (auto n = pool.get_n_remaining_tasks()) {
+		while(auto n = pool.get_n_remaining_tasks()) {
 			auto percent = static_cast<int>((1.0 - double(n) / total_n_tasks) * 100.0);
-			if (percent > current_percent) {
+			if(percent > current_percent) {
 				current_percent = percent;
 				std::clog << current_percent << '%' << std::endl;
 			}
@@ -44,8 +51,7 @@ Image Camera::render(const Hittable& world)
 	return output;
 }
 
-void Camera::init()
-{
+void Camera::init() {
 	_image_height = static_cast<int>(image_width / aspect_ratio);
 	_image_height = (_image_height < 1) ? 1 : _image_height;
 
@@ -74,50 +80,45 @@ void Camera::init()
 	_defocus_disk_v = _basis_v * defocus_radius;
 }
 
-Ray Camera::calc_ray(int x, int y) const
-{
+Ray Camera::calc_ray(int x, int y) const {
 	auto pixel_center = _pixel_upper_left + (_pixel_delta_u * x) + (_pixel_delta_v * y);
 	auto pixel_sample = pixel_center + pixel_random_sample();
 
 	auto ray_origin = (defocus_angle <= 0) ? pos : defocus_disk_sample();
 	auto ray_direction = pixel_sample - ray_origin;
 
-	return { ray_origin, ray_direction };
+	return {ray_origin, ray_direction};
 }
 
-Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& world)
-{
-	if (bounces_left <= 0) return { 0.0, 0.0, 0.0 };
+Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& world) {
+	if(bounces_left <= 0) return {0.0, 0.0, 0.0};
 
 	HitRecord record;
 	constexpr auto min_travel = 0.0001;
-	if (world.hit(r, Interval(min_travel, Utility::infinity), record)) {
+	if(world.hit(r, Interval(min_travel, Utility::infinity), record)) {
 		Ray scattered;
 		Color attenuation;
-		if (record.material->scatter(r, record, attenuation, scattered)) {
+		if(record.material->scatter(r, record, attenuation, scattered)) {
 			return attenuation * calc_ray_color(scattered, bounces_left - 1, world);
 		}
-		return { 0, 0, 0 };
+		return {0, 0, 0};
 	}
 
 	return calc_background_color(r);
 }
 
-Point3 Camera::pixel_random_sample() const
-{
+Point3 Camera::pixel_random_sample() const {
 	auto px = -0.5 + Utility::random_normalized();
 	auto py = -0.5 + Utility::random_normalized();
 	return (px * _pixel_delta_u) + (px * _pixel_delta_v);
 }
 
-Point3 Camera::defocus_disk_sample() const
-{
+Point3 Camera::defocus_disk_sample() const {
 	auto p = Utility::random_in_unit_disk();
 	return pos + p.x * _defocus_disk_u + p.y * _defocus_disk_v;
 }
 
-Color Camera::calc_background_color(Ray r) const
-{
+Color Camera::calc_background_color(Ray r) const {
 	auto unit_direction = r.getDirection().normalized();
 	auto a = (unit_direction.y + 1.0) * 0.5;
 	return (1.0 - a) * background_primary + a * background_secondary;

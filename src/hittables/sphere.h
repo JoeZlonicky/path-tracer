@@ -1,7 +1,13 @@
 #pragma once
 
+#include <memory>
+
+#include "../materials/material.h"
+#include "../math/aabb.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
 #include "hittable.h"
-#include "vector_3.h"
 
 class Sphere : public Hittable {
 public:

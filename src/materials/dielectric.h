@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../hittables/hittable.h"
+#include "../math/ray.h"
+#include "../math/vector_3.h"
 #include "material.h"
 
 class Dielectric : public Material {

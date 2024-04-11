@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
-#include "aabb.h"
+#include "../math/aabb.h"
+#include "../math/interval.h"
+#include "../math/ray.h"
 #include "hittable.h"
 #include "hittable_list.h"
 

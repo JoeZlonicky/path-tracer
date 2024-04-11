@@ -1,11 +1,12 @@
 #pragma once
 
 #include <cmath>
+#include <fstream>
 #include <limits>
 #include <random>
 
-#include "interval.h"
-#include "vector_3.h"
+#include "../math/interval.h"
+#include "../math/vector_3.h"
 
 namespace Utility {
 	constexpr double infinity = std::numeric_limits<double>::infinity();
@@ -30,9 +31,9 @@ namespace Utility {
 	}
 
 	inline Vector3 random_in_unit_sphere() {
-		while (true) {
+		while(true) {
 			auto p = Vector3::random(-1.0, 1.0);
-			if (p.squared_magnitude() < 1) return p;
+			if(p.squared_magnitude() < 1) return p;
 		}
 	}
 
@@ -43,14 +44,14 @@ namespace Utility {
 	inline Vector3 random_on_hemisphere(const Vector3& normal) {
 		Vector3 on_unit_sphere = random_unit_vector();
 
-		if (on_unit_sphere.dot(normal) > 0.0) return on_unit_sphere;
+		if(on_unit_sphere.dot(normal) > 0.0) return on_unit_sphere;
 		return -on_unit_sphere;
 	}
 
 	inline Vector3 random_in_unit_disk() {
-		while (true) {
-			auto p = Vector3{ random_range(-1.0,1.0), random_range(-1.0, 1.0), 0.0 };
-			if (p.squared_magnitude() < 1.0) return p;
+		while(true) {
+			auto p = Vector3{random_range(-1.0,1.0), random_range(-1.0, 1.0), 0.0};
+			if(p.squared_magnitude() < 1.0) return p;
 		}
 	}
 
@@ -67,7 +68,7 @@ namespace Utility {
 		g = linear_to_gamma(g);
 		b = linear_to_gamma(b);
 
-		Interval intensity{ 0.000, 0.999 };
+		Interval intensity{0.000, 0.999};
 		constexpr int max_value = 256;
 
 		out << static_cast<int>(max_value * intensity.clamp(r)) << ' '
