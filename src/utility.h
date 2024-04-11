@@ -25,6 +25,10 @@ namespace Utility {
 		return min + (max - min) * random_normalized();
 	}
 
+	inline int random_range(int min, int max) {
+		return int(random_range(double(min), double(max)));
+	}
+
 	inline Vector3 random_in_unit_sphere() {
 		while (true) {
 			auto p = Vector3::random(-1.0, 1.0);
@@ -45,7 +49,7 @@ namespace Utility {
 
 	inline Vector3 random_in_unit_disk() {
 		while (true) {
-			auto p = Vector3{ random_range(-1,1.0), random_range(-1, 1.0), 0.0 };
+			auto p = Vector3{ random_range(-1.0,1.0), random_range(-1.0, 1.0), 0.0 };
 			if (p.squared_magnitude() < 1.0) return p;
 		}
 	}

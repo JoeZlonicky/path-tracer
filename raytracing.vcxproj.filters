@@ -64,8 +64,11 @@
     <ClCompile Include="src\window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\bvh_node.cpp">
+      <Filter>Hittables</Filter>
+    </ClCompile>
     <ClCompile Include="src\aabb.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="src\aabb.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bvh_node.h">
+      <Filter>Hittables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

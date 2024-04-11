@@ -3,6 +3,7 @@
 #include <math.h>
 #include <memory>
 
+#include "bvh_node.h"
 #include "camera.h"
 #include "dielectric.h"
 #include "hittable_list.h"
@@ -47,6 +48,9 @@ int main() {
 
 	auto silver_metal_material = std::make_shared<Metal>(Color{ 0.9, 0.9, 0.9 }, 0.3);
 	create_sphere(scene, { tri_x * 2.0, distance + y_offset, 0.0 }, radius, silver_metal_material);
+
+	// Put everything into a BVH tree
+	scene = { std::make_shared<BVHNode>(scene) };
 
 	// Camera
 	Camera cam;

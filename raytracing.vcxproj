@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aabb.cpp" />
+    <ClCompile Include="src\bvh_node.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\dielectric.cpp" />
     <ClCompile Include="src\hittable_list.cpp" />
@@ -36,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aabb.h" />
+    <ClInclude Include="src\bvh_node.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\dielectric.h" />
     <ClInclude Include="src\hittable.h" />

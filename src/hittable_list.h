@@ -16,4 +16,9 @@ public:
 	void add(std::shared_ptr<Hittable> object);
 
 	bool hit(const Ray& r, Interval ray_t, HitRecord& record) const override;
+
+	AABB bounding_box() const override;
+
+private:
+	AABB _bbox;
 };

@@ -1,5 +1,10 @@
 #include "aabb.h"
 
+#include "interval.h"
+
+AABB AABB::empty{ Interval::empty, Interval::empty, Interval::empty };
+AABB AABB::universe{ Interval::universe, Interval::universe, Interval::universe };
+
 AABB::AABB(const Interval& x, const Interval& y, const Interval& z) : x(x), y(y), z(z)
 {
 }
@@ -11,6 +16,13 @@ AABB::AABB(const Point3& a, const Point3& b)
 	z = (a.z < b.z) ? Interval{ a.z, b.z } : Interval{ b.z, a.z };
 }
 
+AABB::AABB(const AABB& a, const AABB& b)
+{
+	x = { a.x, b.x };
+	y = { a.y, b.y };
+	z = { a.z, b.z };
+}
+
 bool AABB::hit(const Ray& r, Interval ray_t) const
 {
 	const Point3& ray_origin = r.getOrigin();
@@ -18,11 +30,11 @@ bool AABB::hit(const Ray& r, Interval ray_t) const
 
 	for (int axis = 0; axis < 3; ++axis)
 	{
-		const Interval& a = components[axis];
+		const Interval& a = intervals[axis];
 		auto inverse = 1.0 / ray_direction[axis];
 
-		auto t0 = (components[axis].min - ray_origin[axis]) * inverse;
-		auto t1 = (components[axis].max - ray_origin[axis]) * inverse;
+		auto t0 = (intervals[axis].min - ray_origin[axis]) * inverse;
+		auto t1 = (intervals[axis].max - ray_origin[axis]) * inverse;
 
 		if (t0 < t1) {
 			if (t0 > ray_t.min) ray_t.min = t0;
@@ -37,4 +49,12 @@ bool AABB::hit(const Ray& r, Interval ray_t) const
 	}
 
 	return true;
+}
+
+int AABB::longest_axis() const
+{
+	if (x.size() > y.size()) {
+		return x.size() > z.size() ? 0 : 2;
+	}
+	return y.size() > z.size() ? 1 : 2;
 }

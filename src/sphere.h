@@ -9,8 +9,11 @@ public:
 
 	bool hit(const Ray& r, Interval ray_t, HitRecord& record) const override;
 
+	AABB bounding_box() const override;
+
 private:
 	Point3 _center;
 	double _radius;
 	std::shared_ptr<Material> _material;
+	AABB _bbox;
 };
