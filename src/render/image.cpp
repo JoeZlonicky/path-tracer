@@ -1,5 +1,7 @@
 #include "image.h"
 
+#include <vector>
+
 #include "../math/vector_3.h"
 
 Image::Image(int width, int height) : _width(width), _height(height), _pixels{static_cast<unsigned int>(width * height)} {

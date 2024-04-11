@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../hittables/hittable.h"
+#include "../hittables/hit_record.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
 #include "material.h"

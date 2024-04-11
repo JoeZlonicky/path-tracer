@@ -3,13 +3,15 @@
 #include <cmath>
 #include <iostream>
 
+#include "../hittables/hit_record.h"
 #include "../hittables/hittable.h"
+#include "../materials/material.h"
 #include "../math/interval.h"
+#include "../math/math_utility.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "../utility/image.h"
-#include "../utility/thread_pool.h"
-#include "../utility/utility.h"
+#include "grid_thread_pool.h"
+#include "image.h"
 
 Image Camera::render(const Hittable& world) {
 	init();
@@ -56,7 +58,7 @@ void Camera::init() {
 	_image_height = (_image_height < 1) ? 1 : _image_height;
 
 	// Viewport
-	auto theta = Utility::degrees_to_radians(vfov);
+	auto theta = MathUtility::degrees_to_radians(vfov);
 	auto h = tan(theta / 2.0);
 	auto viewport_height = 2.0 * h * focus_distance;
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
@@ -75,7 +77,7 @@ void Camera::init() {
 	auto viewport_upper_left = pos - (focus_distance * _basis_w) - viewport_u / 2.0 - viewport_v / 2.0;
 	_pixel_upper_left = viewport_upper_left + (_pixel_delta_u + _pixel_delta_v) * 0.5;
 
-	auto defocus_radius = focus_distance * tan(Utility::degrees_to_radians(defocus_angle / 2.0));
+	auto defocus_radius = focus_distance * tan(MathUtility::degrees_to_radians(defocus_angle / 2.0));
 	_defocus_disk_u = _basis_u * defocus_radius;
 	_defocus_disk_v = _basis_v * defocus_radius;
 }
@@ -95,7 +97,7 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& wor
 
 	HitRecord record;
 	constexpr auto min_travel = 0.0001;
-	if(world.hit(r, Interval(min_travel, Utility::infinity), record)) {
+	if(world.hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		Ray scattered;
 		Color attenuation;
 		if(record.material->scatter(r, record, attenuation, scattered)) {
@@ -104,21 +106,21 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& wor
 		return {0, 0, 0};
 	}
 
-	return calc_background_color(r);
+	return background_color(r);
 }
 
 Point3 Camera::pixel_random_sample() const {
-	auto px = -0.5 + Utility::random_normalized();
-	auto py = -0.5 + Utility::random_normalized();
+	auto px = -0.5 + MathUtility::random_normalized();
+	auto py = -0.5 + MathUtility::random_normalized();
 	return (px * _pixel_delta_u) + (px * _pixel_delta_v);
 }
 
 Point3 Camera::defocus_disk_sample() const {
-	auto p = Utility::random_in_unit_disk();
+	auto p = MathUtility::random_in_unit_disk();
 	return pos + p.x * _defocus_disk_u + p.y * _defocus_disk_v;
 }
 
-Color Camera::calc_background_color(Ray r) const {
+Color Camera::background_color(const Ray& r) const {
 	auto unit_direction = r.getDirection().normalized();
 	auto a = (unit_direction.y + 1.0) * 0.5;
 	return (1.0 - a) * background_primary + a * background_secondary;

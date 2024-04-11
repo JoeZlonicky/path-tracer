@@ -3,7 +3,7 @@
 #include <cmath>
 #include <fstream>
 
-#include "../utility/utility.h"
+#include "math_utility.h"
 
 Vector3::Vector3() : x(0.f), y(0.f), z(0.f) {}
 
@@ -12,11 +12,11 @@ Vector3::Vector3(double value) : x(value), y(value), z(value) {}
 Vector3::Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
 
 Vector3 Vector3::random() {
-	return {Utility::random_normalized(), Utility::random_normalized(), Utility::random_normalized()};
+	return {MathUtility::random_normalized(), MathUtility::random_normalized(), MathUtility::random_normalized()};
 }
 
 Vector3 Vector3::random(double min, double max) {
-	return {Utility::random_range(min, max), Utility::random_range(min, max), Utility::random_range(min, max)};
+	return {MathUtility::random_range(min, max), MathUtility::random_range(min, max), MathUtility::random_range(min, max)};
 }
 
 double& Vector3::operator[](const int i) {

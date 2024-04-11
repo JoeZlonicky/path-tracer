@@ -10,10 +10,10 @@
 #include "materials/lambertian.h"
 #include "materials/material.h"
 #include "materials/metal.h"
+#include "math/math_utility.h"
 #include "math/vector_3.h"
 #include "render/camera.h"
 #include "render/window.h"
-#include "utility/utility.h"
 
 namespace {
 	void create_sphere(HittableList& scene, const Point3& position, double r, std::shared_ptr<Material> material) {
@@ -33,8 +33,8 @@ int main() {
 	auto radius = 0.8;
 	auto y_offset = -0.25;
 
-	auto tri_x = cos(Utility::pi / 6.0) * distance;
-	auto tri_y = sin(Utility::pi / 6.0) * distance;
+	auto tri_x = cos(MathUtility::pi / 6.0) * distance;
+	auto tri_y = sin(MathUtility::pi / 6.0) * distance;
 
 	auto red_diffuse_material = std::make_shared<Lambertian>(Color{0.9, 0.1, 0.1});
 	create_sphere(scene, {-tri_x, -tri_y + y_offset, 0.0}, radius, red_diffuse_material);
@@ -80,7 +80,7 @@ int main() {
 	std::clog << "Saving output..." << std::endl;
 	output << "P3\n" << image.get_width() << ' ' << image.get_height() << "\n255\n";
 	for(auto& pixel : image.get_pixels()) {
-		Utility::write_color_256(output, pixel);
+		MathUtility::write_color_256(output, pixel);
 	}
 
 	output.close();

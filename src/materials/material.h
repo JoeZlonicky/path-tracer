@@ -3,7 +3,7 @@
 #include "../math/ray.h"
 #include "../math/vector_3.h"
 
-class HitRecord;
+struct HitRecord;
 
 class Material {
 public:

@@ -8,10 +8,10 @@ public:
 
 	Ray(const Point3& origin, const Vector3& direction);
 
-	Point3 getOrigin() const;
-	Point3 getDirection() const;
+	[[nodiscard]] Point3 getOrigin() const;
+	[[nodiscard]] Point3 getDirection() const;
 
-	Point3 at(double t) const;
+	[[nodiscard]] Point3 at(double t) const;
 
 private:
 	Point3 _origin;

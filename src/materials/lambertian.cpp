@@ -1,12 +1,12 @@
 #include "lambertian.h"
 
-#include "../hittables/hittable.h"
+#include "../hittables/hit_record.h"
+#include "../math/math_utility.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "../utility/utility.h"
 
 bool Lambertian::scatter(const Ray& r, const HitRecord& record, Color& attenuation_out, Ray& scattered_out) const {
-	auto scatter_direction = record.normal + Utility::random_unit_vector();
+	auto scatter_direction = record.normal + MathUtility::random_unit_vector();
 	scattered_out = Ray{record.position, scatter_direction};
 
 	// If random unit vector perfectly cancels out normal

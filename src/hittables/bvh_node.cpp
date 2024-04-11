@@ -7,6 +7,7 @@
 #include "../math/aabb.h"
 #include "../math/interval.h"
 #include "../math/ray.h"
+#include "hit_record.h"
 #include "hittable.h"
 #include "hittable_list.h"
 
@@ -58,11 +59,11 @@ BVHNode::BVHNode(std::vector<std::shared_ptr<Hittable>>& objects, size_t start, 
 	}
 }
 
-bool BVHNode::hit(const Ray& r, Interval ray_t, HitRecord& record) const {
+bool BVHNode::hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const {
 	if(!_bbox.intersect(r, ray_t)) return false;
 
-	auto hit_left = _left->hit(r, ray_t, record);
-	auto hit_right = _right->hit(r, ray_t, record);
+	auto hit_left = _left->hit(r, ray_t, record_out);
+	auto hit_right = _right->hit(r, ray_t, record_out);
 
 	return hit_left || hit_right;
 }

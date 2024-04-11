@@ -3,11 +3,11 @@
 #include "../hittables/hittable.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "../utility/image.h"
+#include "image.h"
 
 class Camera {
 public:
-	Image render(const Hittable& world);
+	[[nodiscard]] Image render(const Hittable& world);
 
 	Point3 pos{0.0, 0.0, -1.0};
 	Point3 look_at{0.0, 0.0, 0.0};
@@ -28,12 +28,12 @@ public:
 private:
 	void init();
 
-	Ray calc_ray(int x, int y) const;
-	Color calc_ray_color(const Ray& r, int bounces_left, const Hittable& world);
+	[[nodiscard]] Ray calc_ray(int x, int y) const;
+	[[nodiscard]] Color calc_ray_color(const Ray& r, int bounces_left, const Hittable& world);
 
-	Point3 pixel_random_sample() const;
-	Point3 defocus_disk_sample() const;
-	Color calc_background_color(Ray r) const;
+	[[nodiscard]] Point3 pixel_random_sample() const;
+	[[nodiscard]] Point3 defocus_disk_sample() const;
+	[[nodiscard]] Color background_color(const Ray& r) const;
 
 	int _image_height = 0;
 	Point3 _pixel_upper_left;

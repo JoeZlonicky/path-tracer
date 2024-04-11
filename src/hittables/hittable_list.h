@@ -6,6 +6,7 @@
 #include "../math/aabb.h"
 #include "../math/interval.h"
 #include "../math/ray.h"
+#include "hit_record.h"
 #include "hittable.h"
 
 class HittableList : public Hittable {
@@ -18,9 +19,9 @@ public:
 	void clear();
 	void add(std::shared_ptr<Hittable> object);
 
-	bool hit(const Ray& r, Interval ray_t, HitRecord& record) const override;
+	bool hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const override;
 
-	AABB bounding_box() const override;
+	[[nodiscard]] AABB bounding_box() const override;
 
 private:
 	AABB _bbox;

@@ -10,12 +10,12 @@ public:
 	Interval(const Interval& a, const Interval& b);
 
 	void expand(double delta);
-	Interval expanded(double delta) const;
+	[[nodiscard]] Interval expanded(double delta) const;
 
-	double size() const;
-	bool contains(double x) const;
-	bool surrounds(double x) const;
-	double clamp(double x) const;
+	[[nodiscard]] double clamped(double x) const;
+	[[nodiscard]] double size() const;
+	[[nodiscard]] bool contains(double x) const;
+	[[nodiscard]] bool surrounds(double x) const;
 
 	static Interval empty;
 	static Interval universe;

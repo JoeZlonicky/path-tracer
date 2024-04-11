@@ -1,14 +1,14 @@
 #pragma once
 
 #include <cmath>
-#include <fstream>
+#include <iostream>
 #include <limits>
 #include <random>
 
 #include "../math/interval.h"
 #include "../math/vector_3.h"
 
-namespace Utility {
+namespace MathUtility {
 	constexpr double infinity = std::numeric_limits<double>::infinity();
 	constexpr double pi = 3.1415926535897932385;
 
@@ -71,8 +71,8 @@ namespace Utility {
 		Interval intensity{0.000, 0.999};
 		constexpr int max_value = 256;
 
-		out << static_cast<int>(max_value * intensity.clamp(r)) << ' '
-			<< static_cast<int>(max_value * intensity.clamp(g)) << ' '
-			<< static_cast<int>(max_value * intensity.clamp(b)) << '\n';
+		out << static_cast<int>(max_value * intensity.clamped(r)) << ' '
+			<< static_cast<int>(max_value * intensity.clamped(g)) << ' '
+			<< static_cast<int>(max_value * intensity.clamped(b)) << '\n';
 	}
 }

@@ -10,7 +10,7 @@ public:
 
 	bool init(std::string window_name);
 	bool load_image(std::string file_path);
-	bool should_keep_open();
+	[[nodiscard]] bool should_keep_open();
 	void resize_window_to_image_size();
 	void draw();
 

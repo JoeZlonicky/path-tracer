@@ -1,6 +1,6 @@
 #pragma once
 
-#include <fstream>
+#include <iosfwd>
 
 struct Vector3 {
 	union {

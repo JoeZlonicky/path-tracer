@@ -8,14 +8,14 @@
 #include "../math/interval.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "hittable.h"
+#include "hit_record.h"
 
 Sphere::Sphere(Point3 center, double radius, std::shared_ptr<Material> material) : _center(center), _radius(radius), _material(material) {
 	auto radius_v = Vector3{radius, radius, radius};
 	_bbox = AABB{center - radius_v, center + radius_v};
 }
 
-bool Sphere::hit(const Ray& r, Interval ray_t, HitRecord& record) const {
+bool Sphere::hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const {
 	auto oc = r.getOrigin() - _center;
 	auto dir = r.getDirection();
 	auto r2 = _radius * _radius;
@@ -39,11 +39,11 @@ bool Sphere::hit(const Ray& r, Interval ray_t, HitRecord& record) const {
 		}
 	}
 
-	record.t = root;
-	record.position = r.at(root);
-	auto outward_normal = (record.position - _center) / _radius;
-	record.set_face_normal(r, outward_normal);
-	record.material = _material;
+	record_out.t = root;
+	record_out.position = r.at(root);
+	auto outward_normal = (record_out.position - _center) / _radius;
+	record_out.set_face_normal(r, outward_normal);
+	record_out.material = _material;
 
 	return true;
 }

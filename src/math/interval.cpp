@@ -1,11 +1,11 @@
 #include "interval.h"
 
-#include "../utility/utility.h"
+#include "math_utility.h"
 
-Interval Interval::empty{Utility::infinity, -Utility::infinity};
-Interval Interval::universe{-Utility::infinity, Utility::infinity};
+Interval Interval::empty{MathUtility::infinity, -MathUtility::infinity};
+Interval Interval::universe{-MathUtility::infinity, MathUtility::infinity};
 
-Interval::Interval() : min(Utility::infinity), max(-Utility::infinity) {
+Interval::Interval() : min(MathUtility::infinity), max(-MathUtility::infinity) {
 }
 
 Interval::Interval(double p_min, double p_max) : min(p_min), max(p_max) {
@@ -25,6 +25,13 @@ Interval Interval::expanded(double delta) const {
 	return {min - padding, max + padding};
 }
 
+double Interval::clamped(double x) const {
+	if(x < min) return min;
+	if(x > max) return max;
+
+	return x;
+}
+
 double Interval::size() const {
 	return max - min;
 }
@@ -35,11 +42,4 @@ bool Interval::contains(double x) const {
 
 bool Interval::surrounds(double x) const {
 	return min < x && x < max;
-}
-
-double Interval::clamp(double x) const {
-	if(x < min) return min;
-	if(x > max) return max;
-
-	return x;
 }

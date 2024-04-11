@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\utility\image.cpp" />
-    <ClCompile Include="src\utility\thread_pool.cpp" />
+    <ClCompile Include="src\render\image.cpp" />
+    <ClCompile Include="src\render\grid_thread_pool.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\aabb.cpp" />
     <ClCompile Include="src\math\interval.cpp" />
@@ -16,11 +16,12 @@
     <ClCompile Include="src\render\camera.cpp" />
     <ClCompile Include="src\math\ray.cpp" />
     <ClCompile Include="src\render\window.cpp" />
+    <ClCompile Include="src\hittables\hit_record.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\utility\image.h" />
-    <ClInclude Include="src\utility\thread_pool.h" />
-    <ClInclude Include="src\utility\utility.h" />
+    <ClInclude Include="src\render\image.h" />
+    <ClInclude Include="src\render\grid_thread_pool.h" />
+    <ClInclude Include="src\math\math_utility.h" />
     <ClInclude Include="src\math\vector_3.h" />
     <ClInclude Include="src\math\aabb.h" />
     <ClInclude Include="src\math\interval.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="src\render\camera.h" />
     <ClInclude Include="src\math\ray.h" />
     <ClInclude Include="src\render\window.h" />
+    <ClInclude Include="src\hittables\hit_record.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />

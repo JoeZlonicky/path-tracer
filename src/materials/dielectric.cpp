@@ -2,10 +2,10 @@
 
 #include <cmath>
 
-#include "../hittables/hittable.h"
+#include "../hittables/hit_record.h"
+#include "../math/math_utility.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "../utility/utility.h"
 
 namespace {
 	double reflectance(double cosine, double refraction_ratio) {
@@ -30,7 +30,7 @@ bool Dielectric::scatter(const Ray& r, const HitRecord& record, Color& attenuati
 	auto can_refract = refraction_ratio * sin_theta <= 1.0;
 	Vector3 direction;
 
-	if(can_refract && reflectance(cos_theta, refraction_ratio) <= Utility::random_normalized()) {
+	if(can_refract && reflectance(cos_theta, refraction_ratio) <= MathUtility::random_normalized()) {
 		direction = unit_direction.refract(record.normal, refraction_ratio);
 	} else {
 		direction = unit_direction.reflect(record.normal);
