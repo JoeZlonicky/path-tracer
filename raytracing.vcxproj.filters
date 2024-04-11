@@ -17,6 +17,7 @@
     <ClCompile Include="src\math\ray.cpp" />
     <ClCompile Include="src\render\window.cpp" />
     <ClCompile Include="src\hittables\hit_record.cpp" />
+    <ClCompile Include="src\hittables\quad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\render\image.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="src\math\ray.h" />
     <ClInclude Include="src\render\window.h" />
     <ClInclude Include="src\hittables\hit_record.h" />
+    <ClInclude Include="src\hittables\quad.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />

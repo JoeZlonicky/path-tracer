@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\hittables\quad.cpp" />
     <ClCompile Include="src\hittables\hit_record.cpp" />
     <ClCompile Include="src\math\aabb.cpp" />
     <ClCompile Include="src\hittables\bvh_node.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\render\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\hittables\quad.h" />
     <ClInclude Include="src\hittables\hit_record.h" />
     <ClInclude Include="src\math\aabb.h" />
     <ClInclude Include="src\hittables\bvh_node.h" />

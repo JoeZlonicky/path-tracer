@@ -5,6 +5,7 @@
 
 #include "hittables/bvh_node.h"
 #include "hittables/hittable_list.h"
+#include "hittables/quad.h"
 #include "hittables/sphere.h"
 #include "materials/dielectric.h"
 #include "materials/lambertian.h"
@@ -51,15 +52,18 @@ int main() {
 	auto silver_metal_material = std::make_shared<Metal>(Color{0.9, 0.9, 0.9}, 0.3);
 	create_sphere(scene, {tri_x * 2.0, distance + y_offset, 0.0}, radius, silver_metal_material);
 
+	auto white_diffuse_material = std::make_shared<Lambertian>(Color{1.0, 1.0, 1.0});
+	scene.add(std::make_shared<Quad>(Point3{-2.0, -2.0, -2.0}, Vector3{4.0, 0.0, 0.0}, Vector3{0.0, 4.0, 0.0}, white_diffuse_material));
+
 	// Put everything into a BVH tree
 	scene = {std::make_shared<BVHNode>(scene)};
 
 	// Camera
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
-	cam.image_width = 400;
+	cam.image_width = 1000;
 	cam.max_bounces = 50;
-	cam.samples_per_pixel = 50;
+	cam.samples_per_pixel = 200;
 
 	cam.vfov = 25.0;
 	cam.pos = {0, 0.0, 10.0};

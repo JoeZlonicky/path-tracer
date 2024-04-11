@@ -4,6 +4,7 @@
 
 Interval Interval::empty{MathUtility::infinity, -MathUtility::infinity};
 Interval Interval::universe{-MathUtility::infinity, MathUtility::infinity};
+Interval Interval::unit{0.0, 1.0};
 
 Interval::Interval() : min(MathUtility::infinity), max(-MathUtility::infinity) {
 }

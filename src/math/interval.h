@@ -19,4 +19,5 @@ public:
 
 	static Interval empty;
 	static Interval universe;
+	static Interval unit;
 };
