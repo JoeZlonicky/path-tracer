@@ -8,6 +8,7 @@
 #include "hittables/quad.h"
 #include "hittables/sphere.h"
 #include "materials/dielectric.h"
+#include "materials/diffuse_light.h"
 #include "materials/lambertian.h"
 #include "materials/material.h"
 #include "materials/metal.h"
@@ -37,23 +38,23 @@ int main() {
 	auto tri_x = cos(MathUtility::pi / 6.0) * distance;
 	auto tri_y = sin(MathUtility::pi / 6.0) * distance;
 
+	//auto gold_metal_material = std::make_shared<Metal>(Color{1.0, 0.78, 0.08}, 0.05);
+	//create_sphere(scene, {-tri_x * 2.0, distance + y_offset, 0.0}, radius, gold_metal_material);
+
 	auto red_diffuse_material = std::make_shared<Lambertian>(Color{0.9, 0.1, 0.1});
 	create_sphere(scene, {-tri_x, -tri_y + y_offset, 0.0}, radius, red_diffuse_material);
 
-	auto gold_metal_material = std::make_shared<Metal>(Color{1.0, 0.78, 0.08}, 0.05);
-	create_sphere(scene, {tri_x, -tri_y + y_offset, 0.0}, radius, gold_metal_material);
-
-	auto glass_material = std::make_shared<Dielectric>(1.5);
-	create_sphere(scene, {0.0, distance + y_offset, 0.0}, radius, glass_material);
+	auto green_diffuse_material = std::make_shared<Lambertian>(Color{0.71, 0.9, 0.11});
+	create_sphere(scene, {0.0, distance + y_offset, 0.0}, radius, green_diffuse_material);
 
 	auto blue_diffuse_material = std::make_shared<Lambertian>(Color{0.0, 0.6, 0.9});
-	create_sphere(scene, {-tri_x * 2.0, distance + y_offset, 0.0}, radius, blue_diffuse_material);
+	create_sphere(scene, {tri_x, -tri_y + y_offset, 0.0}, radius, blue_diffuse_material);
 
-	auto silver_metal_material = std::make_shared<Metal>(Color{0.9, 0.9, 0.9}, 0.3);
-	create_sphere(scene, {tri_x * 2.0, distance + y_offset, 0.0}, radius, silver_metal_material);
+	//auto silver_metal_material = std::make_shared<Metal>(Color{0.9, 0.9, 0.9}, 0.3);
+	//create_sphere(scene, {tri_x * 2.0, distance + y_offset, 0.0}, radius, silver_metal_material);
 
-	auto white_diffuse_material = std::make_shared<Lambertian>(Color{1.0, 1.0, 1.0});
-	scene.add(std::make_shared<Quad>(Point3{-2.0, -2.0, -2.0}, Vector3{4.0, 0.0, 0.0}, Vector3{0.0, 4.0, 0.0}, white_diffuse_material));
+	auto white_light_material = std::make_shared<DiffuseLight>(Color{4.0, 4.0, 4.0});
+	scene.add(std::make_shared<Quad>(Point3{-2.0, -2.0, -2.0}, Vector3{4.0, 0.0, 0.0}, Vector3{0.0, 4.0, 0.0}, white_light_material));
 
 	// Put everything into a BVH tree
 	scene = {std::make_shared<BVHNode>(scene)};
@@ -61,9 +62,9 @@ int main() {
 	// Camera
 	Camera cam;
 	cam.aspect_ratio = 16.0 / 9.0;
-	cam.image_width = 1000;
+	cam.image_width = 400;
 	cam.max_bounces = 50;
-	cam.samples_per_pixel = 200;
+	cam.samples_per_pixel = 50;
 
 	cam.vfov = 25.0;
 	cam.pos = {0, 0.0, 10.0};
@@ -72,6 +73,8 @@ int main() {
 
 	cam.defocus_angle = 0.6;
 	cam.focus_distance = 10.0;
+	cam.background_primary = {0.0, 0.0, 0.0};
+	cam.background_secondary = {0.0, 0.0, 0.0};
 
 	// Render
 	auto image = cam.render(scene);

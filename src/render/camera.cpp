@@ -97,16 +97,20 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& wor
 
 	HitRecord record;
 	constexpr auto min_travel = 0.0001;
-	if(world.hit(r, Interval(min_travel, MathUtility::infinity), record)) {
-		Ray scattered;
-		Color attenuation;
-		if(record.material->scatter(r, record, attenuation, scattered)) {
-			return attenuation * calc_ray_color(scattered, bounces_left - 1, world);
-		}
-		return {0, 0, 0};
+	if(!world.hit(r, Interval(min_travel, MathUtility::infinity), record)) {
+		return background_color(r);
 	}
 
-	return background_color(r);
+	Ray scattered;
+	Color attenuation;
+	Color emission_color = record.material->emitted();
+
+	if(!record.material->scatter(r, record, attenuation, scattered)) {
+		return emission_color;
+	}
+
+	Color scatter_color = attenuation * calc_ray_color(scattered, bounces_left - 1, world);
+	return emission_color + scatter_color;
 }
 
 Point3 Camera::pixel_random_sample() const {

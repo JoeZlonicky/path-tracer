@@ -5,6 +5,9 @@
 #include "../math/ray.h"
 #include "../math/vector_3.h"
 
+Lambertian::Lambertian(const Color& albedo) : _albedo(albedo) {
+}
+
 bool Lambertian::scatter(const Ray& r, const HitRecord& record, Color& attenuation_out, Ray& scattered_out) const {
 	auto scatter_direction = record.normal + MathUtility::random_unit_vector();
 	scattered_out = Ray{record.position, scatter_direction};

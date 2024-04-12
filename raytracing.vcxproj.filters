@@ -18,6 +18,8 @@
     <ClCompile Include="src\render\window.cpp" />
     <ClCompile Include="src\hittables\hit_record.cpp" />
     <ClCompile Include="src\hittables\quad.cpp" />
+    <ClCompile Include="src\materials\material.cpp" />
+    <ClCompile Include="src\materials\diffuse_light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\render\image.h" />
@@ -39,6 +41,7 @@
     <ClInclude Include="src\render\window.h" />
     <ClInclude Include="src\hittables\hit_record.h" />
     <ClInclude Include="src\hittables\quad.h" />
+    <ClInclude Include="src\materials\diffuse_light.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />
