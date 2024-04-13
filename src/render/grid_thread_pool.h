@@ -28,6 +28,8 @@ private:
 
 	std::vector<std::thread> _threads{};
 	std::mutex _queue_mutex;
+	std::mutex _n_remaining_mutex;
 	std::condition_variable _cv;
 	bool _should_terminate = false;
+	int _n_remaining_tasks;
 };

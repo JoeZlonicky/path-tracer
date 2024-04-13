@@ -19,6 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="external\imgui-1.90.5\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\backends\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\imgui.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\imgui_draw.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\imgui_tables.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\imgui_widgets.cpp" />
+    <ClCompile Include="external\imgui-1.90.5\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\hittables\quad.cpp" />
     <ClCompile Include="src\hittables\hit_record.cpp" />
     <ClCompile Include="src\materials\diffuse_light.cpp" />
@@ -37,7 +44,8 @@
     <ClCompile Include="src\hittables\sphere.cpp" />
     <ClCompile Include="src\render\grid_thread_pool.cpp" />
     <ClCompile Include="src\math\vector_3.cpp" />
-    <ClCompile Include="src\render\window.cpp" />
+    <ClCompile Include="src\ui\user_interface.cpp" />
+    <ClCompile Include="src\ui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hittables\quad.h" />
@@ -59,7 +67,8 @@
     <ClInclude Include="src\render\grid_thread_pool.h" />
     <ClInclude Include="src\math\math_utility.h" />
     <ClInclude Include="src\math\vector_3.h" />
-    <ClInclude Include="src\render\window.h" />
+    <ClInclude Include="src\ui\user_interface.h" />
+    <ClInclude Include="src\ui\window.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
@@ -122,7 +131,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\include;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Joe\C++\raytracing\external\imgui-1.90.5\misc\cpp;C:\Users\Joe\C++\raytracing\external\imgui-1.90.5\backends;C:\Users\Joe\C++\raytracing\external\imgui-1.90.5;C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\include;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\lib\x64;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>

@@ -1,7 +1,9 @@
 #include "camera.h"
 
 #include <cmath>
+#include <functional>
 #include <iostream>
+#include <memory>
 
 #include "../hittables/hit_record.h"
 #include "../hittables/hittable.h"
@@ -13,44 +15,33 @@
 #include "grid_thread_pool.h"
 #include "image.h"
 
-Image Camera::render(const Hittable& world) {
+Camera::Camera(std::shared_ptr<Hittable> scene) : _scene(scene), _thread_pool([&](int x, int y) {render_pixel(x, y); }) {
+}
+
+Camera::~Camera() {
+}
+
+void Camera::render() {
 	init();
 
-	Image output{image_width, _image_height};
-
-	auto render_pixel = [&](int x, int y) {
-		Color pixel_color{0.0, 0.0, 0.0};
-		for(int sample = 0; sample < samples_per_pixel; ++sample) {
-			auto r = calc_ray(x, y);
-			pixel_color += calc_ray_color(r, max_bounces, world);
-		}
-		output.set_pixel(x, y, pixel_color / samples_per_pixel);
-		};
-
-	std::clog << "Starting render..." << std::endl;
-	{
-		GridThreadPool pool{render_pixel};
-		for(int y = 0; y < _image_height; ++y) {
-			for(int x = 0; x < image_width; ++x) {
-				pool.queue_task({x, y});
-			}
-		}
-
-		const auto total_n_tasks = image_width * _image_height;
-		int current_percent = 0;
-		// Note that when there are 0 remaining tasks, the threads are still wrapping up their work
-		// The work will be guarenteed to be finished when the thread pool leaves scope, as all threads are joined
-		while(auto n = pool.get_n_remaining_tasks()) {
-			auto percent = static_cast<int>((1.0 - double(n) / total_n_tasks) * 100.0);
-			if(percent > current_percent) {
-				current_percent = percent;
-				std::clog << current_percent << '%' << std::endl;
-			}
+	_render = std::make_shared<Image>(image_width, _image_height);
+	for(int y = 0; y < _image_height; ++y) {
+		for(int x = 0; x < image_width; ++x) {
+			_thread_pool.queue_task({x, y});
 		}
 	}
+}
 
-	std::clog << "Render completed!" << std::endl;
-	return output;
+bool Camera::is_rendering() {
+	return _thread_pool.get_n_remaining_tasks() > 0;
+}
+
+int Camera::get_n_pixel_renders_remaining() {
+	return _thread_pool.get_n_remaining_tasks();
+}
+
+std::shared_ptr<Image> Camera::get_render() {
+	return _render;
 }
 
 void Camera::init() {
@@ -82,6 +73,15 @@ void Camera::init() {
 	_defocus_disk_v = _basis_v * defocus_radius;
 }
 
+void Camera::render_pixel(int x, int y) {
+	Color pixel_color{0.0, 0.0, 0.0};
+	for(int sample = 0; sample < samples_per_pixel; ++sample) {
+		auto r = calc_ray(x, y);
+		pixel_color += calc_ray_color(r, max_bounces);
+	}
+	_render->set_pixel(x, y, pixel_color / samples_per_pixel);
+}
+
 Ray Camera::calc_ray(int x, int y) const {
 	auto pixel_center = _pixel_upper_left + (_pixel_delta_u * x) + (_pixel_delta_v * y);
 	auto pixel_sample = pixel_center + pixel_random_sample();
@@ -92,12 +92,12 @@ Ray Camera::calc_ray(int x, int y) const {
 	return {ray_origin, ray_direction};
 }
 
-Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& world) {
+Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
 	if(bounces_left <= 0) return {0.0, 0.0, 0.0};
 
 	HitRecord record;
 	constexpr auto min_travel = 0.0001;
-	if(!world.hit(r, Interval(min_travel, MathUtility::infinity), record)) {
+	if(!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		return background_color(r);
 	}
 
@@ -109,7 +109,7 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left, const Hittable& wor
 		return emission_color;
 	}
 
-	Color scatter_color = attenuation * calc_ray_color(scattered, bounces_left - 1, world);
+	Color scatter_color = attenuation * calc_ray_color(scattered, bounces_left - 1);
 	return emission_color + scatter_color;
 }
 
