@@ -7,10 +7,13 @@
 #include <SDL_events.h>
 #include <SDL_image.h>
 #include <SDL_render.h>
+#include <SDL_stdinc.h>
 #include <SDL_surface.h>
 #include <SDL_video.h>
 #include <string>
 
+#include "../math/interval.h"
+#include "../render/camera.h"
 #include "user_interface.h"
 
 namespace {
@@ -40,16 +43,14 @@ Window::Window(std::string window_name, int width, int height) : _width(width), 
 	}
 	_screen = SDL_GetWindowSurface(_window);
 	_ui = std::make_unique<UserInterface>(_window, _renderer);
-	_init_was_successful = true;
 
-	_viewport_rect.x = 200.0;
-	_viewport_rect.w = width - 200.0;
+	_viewport_rect.x = 200;
+	_viewport_rect.w = width - 200;
 	_viewport_rect.h = height;
 }
 
 Window::~Window() {
 	if(_render_texture != nullptr) SDL_DestroyTexture(_render_texture);
-	if(_screen != nullptr) SDL_FreeSurface(_screen);
 	if(_renderer != nullptr) SDL_DestroyRenderer(_renderer);
 	if(_window != nullptr) SDL_DestroyWindow(_window);
 	if(SDL_WasInit(0)) SDL_Quit();
@@ -58,10 +59,6 @@ Window::~Window() {
 void Window::set_camera(std::shared_ptr<Camera> camera) {
 	_camera = camera;
 	_ui->set_camera(camera);
-}
-
-bool Window::init_was_successful() {
-	return _init_was_successful;
 }
 
 bool Window::update() {

@@ -15,24 +15,25 @@ public:
 	Window(std::string window_name, int width, int height);
 	~Window();
 
+	Window(const Window& window) = delete;
+	Window& operator=(const Window& window) = delete;
+
 	void set_camera(std::shared_ptr<Camera> camera);
-	bool init_was_successful();
 	bool update();
 
 private:
 	void check_for_new_render();
 
-	std::shared_ptr<Camera> _camera;
-	std::shared_ptr<Image> _latest_render;
+	std::shared_ptr<Camera> _camera = nullptr;
+	std::shared_ptr<Image> _latest_render = nullptr;
+	std::unique_ptr<UserInterface> _ui = nullptr;
 
 	SDL_Window* _window = nullptr;
 	SDL_Renderer* _renderer = nullptr;
 	SDL_Surface* _screen = nullptr;
 	SDL_Texture* _render_texture = nullptr;
-	SDL_Rect _viewport_rect;
-	std::unique_ptr<UserInterface> _ui;
+	SDL_Rect _viewport_rect{};
 
-	bool _init_was_successful = false;
 	int _width;
 	int _height;
 };
