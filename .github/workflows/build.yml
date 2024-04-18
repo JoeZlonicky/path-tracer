@@ -9,4 +9,4 @@ jobs:
             - name: build
               shell: cmd
               run: ${{'"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && msbuild'}}
-              working-directory: bin
+              working-directory: .
