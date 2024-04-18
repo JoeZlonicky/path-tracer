@@ -21,6 +21,6 @@ public:
 private:
 	Point3 _center;
 	double _radius;
-	std::shared_ptr<Material> _material;
 	AABB _bbox;
+	std::shared_ptr<Material> _material;
 };

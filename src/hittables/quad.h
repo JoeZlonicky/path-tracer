@@ -23,9 +23,9 @@ private:
 
 	Point3 _pos;
 	Vector3 _u, _v;
-	std::shared_ptr<Material> _material;
 	AABB _bbox;
 	Vector3 _normal;
+	std::shared_ptr<Material> _material;
 
 	double _d;  // plane constant
 	Vector3 _w;  // quad constant for intersection

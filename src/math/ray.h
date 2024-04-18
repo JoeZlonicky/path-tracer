@@ -4,8 +4,7 @@
 
 class Ray {
 public:
-	Ray() {}
-
+	Ray() = default;
 	Ray(const Point3& origin, const Vector3& direction);
 
 	[[nodiscard]] Point3 getOrigin() const;
@@ -15,5 +14,5 @@ public:
 
 private:
 	Point3 _origin;
-	Vector3 _direction;
+	Vector3 _direction;  // Not necessarily normalized
 };

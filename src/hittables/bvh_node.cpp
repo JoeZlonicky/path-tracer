@@ -36,18 +36,18 @@ BVHNode::BVHNode(HittableList list) : BVHNode(list.objects, 0, list.objects.size
 
 BVHNode::BVHNode(std::vector<std::shared_ptr<Hittable>>& objects, size_t start, size_t end) {
 	_bbox = AABB::empty;
-	for(size_t i = start; i < end; ++i) {
+	for(auto i = start; i < end; ++i) {
 		_bbox = {_bbox, objects[i]->bounding_box()};
 	}
 
-	size_t span = end - start;
+	auto span = end - start;
 	if(span == 1) {
 		_left = _right = objects[start];
 	} else if(span == 2) {
 		_left = objects[start];
 		_right = objects[start + 1];
 	} else {
-		int axis = _bbox.longest_axis();
+		auto axis = _bbox.longest_axis();
 		auto comperator = (axis == 0) ? box_x_compare
 			: (axis == 1) ? box_y_compare
 			: box_z_compare;
