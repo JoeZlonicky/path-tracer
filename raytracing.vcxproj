@@ -76,6 +76,10 @@
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </DeploymentContent>
     </CopyFileToFolders>
     <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
       <FileType>Document</FileType>
@@ -134,10 +138,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Joe\C++\raytracing\external\imgui-1.90.5\misc\cpp;C:\Users\Joe\C++\raytracing\external\imgui-1.90.5\backends;C:\Users\Joe\C++\raytracing\external\imgui-1.90.5;C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\include;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Joe\C++\raytracing\external\SDL2_image-2.8.2\lib\x64;C:\Users\Joe\C++\raytracing\external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)external\imgui-1.90.5\misc\cpp;$(SolutionDir)external\imgui-1.90.5\backends;$(SolutionDir)external\imgui-1.90.5;$(SolutionDir)external\SDL2_image-2.8.2\include;$(SolutionDir)external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)external\SDL2_image-2.8.2\lib\x64;$(SolutionDir)external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)external\imgui-1.90.5\misc\cpp;$(SolutionDir)external\imgui-1.90.5\backends;$(SolutionDir)external\imgui-1.90.5;$(SolutionDir)external\SDL2_image-2.8.2\include;$(SolutionDir)external\SDL2-2.30.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)external\SDL2_image-2.8.2\lib\x64;$(SolutionDir)external\SDL2-2.30.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -194,6 +204,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
