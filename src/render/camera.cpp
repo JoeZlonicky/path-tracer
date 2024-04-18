@@ -96,7 +96,7 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
 	if(bounces_left <= 0) return {0.f, 0.f, 0.f};
 
 	HitRecord record;
-	constexpr auto min_travel = 0.0001f;
+	constexpr auto min_travel = 0.001f;
 	if(!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		return background_color(r);
 	}
