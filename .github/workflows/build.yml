@@ -23,6 +23,8 @@ jobs:
               uses: microsoft/setup-msbuild@v2
             - name: build
               run: ${{'msbuild'}}
+              env:
+                VCTargetsPath: ./
             - name: upload
               uses: actions/upload-artifact@v2
               with:
