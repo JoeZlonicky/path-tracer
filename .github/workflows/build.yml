@@ -20,7 +20,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: build
-              run: ${{'msbuild /p:Configuration=Release'}}
+              run: ${{'msbuild'}}
             - name: upload
               uses: actions/upload-artifact@v2
               with:
