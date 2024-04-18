@@ -76,6 +76,10 @@
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </DeploymentContent>
     </CopyFileToFolders>
     <CopyFileToFolders Include="external\SDL2_image-2.8.2\lib\x64\SDL2_image.dll">
       <FileType>Document</FileType>
