@@ -14,6 +14,7 @@ public:
 
 	[[nodiscard]] int get_width() const;
 	[[nodiscard]] int get_height() const;
+	[[nodiscard]] float get_aspect_ratio() const;
 
 private:
 	std::vector<Color> _pixels;

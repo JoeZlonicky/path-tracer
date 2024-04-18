@@ -28,6 +28,7 @@
     <ClCompile Include="external\imgui-1.90.5\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="external\imgui-1.90.5\imgui_draw.cpp" />
     <ClCompile Include="src\editor\user_interface.cpp" />
+    <ClCompile Include="src\editor\editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\render\image.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="src\materials\diffuse_light.h" />
     <ClInclude Include="src\editor\user_interface.h" />
     <ClInclude Include="src\scenes\five_spheres.h" />
+    <ClInclude Include="src\editor\editor.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />

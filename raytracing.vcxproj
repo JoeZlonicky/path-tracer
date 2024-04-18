@@ -26,6 +26,7 @@
     <ClCompile Include="external\imgui-1.90.5\imgui_tables.cpp" />
     <ClCompile Include="external\imgui-1.90.5\imgui_widgets.cpp" />
     <ClCompile Include="external\imgui-1.90.5\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="src\editor\editor.cpp" />
     <ClCompile Include="src\hittables\quad.cpp" />
     <ClCompile Include="src\hittables\hit_record.cpp" />
     <ClCompile Include="src\materials\diffuse_light.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="src\editor\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\editor\editor.h" />
     <ClInclude Include="src\hittables\quad.h" />
     <ClInclude Include="src\hittables\hit_record.h" />
     <ClInclude Include="src\materials\diffuse_light.h" />

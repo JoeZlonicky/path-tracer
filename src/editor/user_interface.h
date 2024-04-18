@@ -12,9 +12,10 @@ class UserInterface {
 public:
 	UserInterface(SDL_Window* window, SDL_Renderer* renderer);
 	~UserInterface();
-	bool init_was_successful();
+
 	void process_event(const SDL_Event* e);
 	void update();
+
 	void set_camera(std::shared_ptr<Camera> camera);
 
 	const int width = 400;

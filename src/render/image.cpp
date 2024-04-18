@@ -4,7 +4,7 @@
 
 #include "../math/vector_3.h"
 
-Image::Image(int width, int height) : _width(width), _height(height), _pixels{static_cast<unsigned int>(width * height)} {
+Image::Image(int width, int height) : _width(width), _height(height), _pixels{ static_cast<unsigned int>(width * height) } {
 }
 
 void Image::set_pixel(int x, int y, const Color& color) {
@@ -27,4 +27,9 @@ int Image::get_width() const {
 
 int Image::get_height() const {
 	return _height;
+}
+
+float Image::get_aspect_ratio() const
+{
+	return static_cast<float>(_width) / static_cast<float>(_height);
 }
