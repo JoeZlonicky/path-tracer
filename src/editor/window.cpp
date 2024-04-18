@@ -44,8 +44,8 @@ Window::Window(std::string window_name, int width, int height) : _width(width), 
 	_screen = SDL_GetWindowSurface(_window);
 	_ui = std::make_unique<UserInterface>(_window, _renderer);
 
-	_viewport_rect.x = 200;
-	_viewport_rect.w = width - 200;
+	_viewport_rect.x = _ui->width;
+	_viewport_rect.w = width - _ui->width;
 	_viewport_rect.h = height;
 }
 

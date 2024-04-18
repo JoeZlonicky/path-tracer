@@ -17,6 +17,8 @@ public:
 	void update();
 	void set_camera(std::shared_ptr<Camera> camera);
 
+	const int width = 400;
+
 private:
 	std::shared_ptr<Camera> _camera;
 	SDL_Window* _window = nullptr;

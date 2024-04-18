@@ -52,29 +52,32 @@ void UserInterface::process_event(const SDL_Event* e) {
 }
 
 void UserInterface::update() {
+	if(_camera == nullptr) return;
+
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	{
 		ImGui::SetNextWindowPos(ImVec2{0.0, 0.0});
-		ImGui::SetNextWindowSize(ImVec2{200.0, 720});
-		ImGui::Begin("Hello, world!", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-		if(ImGui::Button("Render") && _camera != nullptr && !_camera->is_rendering()) {
+		ImGui::SetNextWindowSize(ImVec2{float(width), 720});
+		ImGui::Begin("Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+		if(ImGui::Button("Render") && !_camera->is_rendering()) {
 			std::cout << "Render" << std::endl;
 			_camera->render();
 		}
-		if(_camera != nullptr) {
-			if(_camera->is_rendering()) {
-				ImGui::SameLine();
-				auto text = "Rendering..." + std::to_string(_camera->get_n_pixel_renders_remaining());
-				ImGui::Text(text.c_str());
-			} else if(_camera->get_render()) {
-				if(ImGui::Button("Save")) {
-					save_output(_camera->get_render());
-				}
+		if(_camera->is_rendering()) {
+			ImGui::SameLine();
+			auto text = "Rendering..." + std::to_string(_camera->get_n_pixel_renders_remaining());
+			ImGui::Text(text.c_str());
+		} else if(_camera->get_render()) {
+			if(ImGui::Button("Save")) {
+				save_output(_camera->get_render());
 			}
 		}
+		ImGui::SliderInt("Image width", &_camera->image_width, 1, 1920);
+		ImGui::SliderInt("Samples per pixel", &_camera->samples_per_pixel, 1, 500);
+		ImGui::SliderInt("Max bounces", &_camera->max_bounces, 1, 100);
 		ImGui::End();
 	}
 
