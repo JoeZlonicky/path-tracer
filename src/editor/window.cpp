@@ -91,7 +91,7 @@ void Window::check_for_new_render() {
 		auto render_surface = SDL_CreateRGBSurface(0, render->get_width(), render->get_height(), 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 		SDL_LockSurface(render_surface);
 		Interval intensity{0.f, 0.999f};
-		constexpr int max_value = 255;
+		constexpr int max_value = 256;
 
 		for(int y = 0; y < render->get_height(); ++y) {
 			for(int x = 0; x < render->get_width(); ++x) {
@@ -99,10 +99,6 @@ void Window::check_for_new_render() {
 				auto r = color.x;
 				auto g = color.y;
 				auto b = color.z;
-
-				if(isnan(r)) r = 0.0;
-				if(isnan(g)) g = 0.0;
-				if(isnan(b)) b = 0.0;
 
 				auto r_byte = static_cast<Uint8>(max_value * intensity.clamped(r));
 				auto g_byte = static_cast<Uint8>(max_value * intensity.clamped(g));
