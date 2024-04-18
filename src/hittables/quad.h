@@ -16,7 +16,7 @@ public:
 	AABB bounding_box() const override;
 
 	bool hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const override;
-	virtual bool hit_local(double a, double b, HitRecord& record_out) const;
+	virtual bool hit_local(float a, float b, HitRecord& record_out) const;
 
 private:
 	virtual void update_bounding_box();
@@ -27,7 +27,7 @@ private:
 	Vector3 _normal;
 	std::shared_ptr<Material> _material;
 
-	double _d;  // plane constant
+	float _d;  // plane constant
 	Vector3 _w;  // quad constant for intersection
 };
 

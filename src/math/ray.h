@@ -10,7 +10,7 @@ public:
 	[[nodiscard]] Point3 getOrigin() const;
 	[[nodiscard]] Point3 getDirection() const;
 
-	[[nodiscard]] Point3 at(double t) const;
+	[[nodiscard]] Point3 at(float t) const;
 
 private:
 	Point3 _origin;

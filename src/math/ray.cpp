@@ -13,6 +13,6 @@ Point3 Ray::getDirection() const {
 	return _direction;
 }
 
-Point3 Ray::at(double t) const {
+Point3 Ray::at(float t) const {
 	return _origin + _direction * t;
 }

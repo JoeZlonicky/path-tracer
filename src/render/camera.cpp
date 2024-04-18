@@ -50,10 +50,10 @@ void Camera::init() {
 
 	// Viewport
 	auto theta = MathUtility::degrees_to_radians(vfov);
-	auto h = tan(theta / 2.0);
-	auto viewport_height = 2.0 * h * focus_distance;
+	auto h = tan(theta / 2.f);
+	auto viewport_height = 2.f * h * focus_distance;
 	// Don't use aspect ratio here for width, as that is only the preferred ratio, need to use image width/height for actual ratio
-	auto viewport_width = viewport_height * (static_cast<double>(image_width) / _image_height);
+	auto viewport_width = viewport_height * (static_cast<float>(image_width) / _image_height);
 
 	_basis_w = (pos - look_at).normalized();
 	_basis_u = up.cross(_basis_w).normalized();
@@ -62,41 +62,41 @@ void Camera::init() {
 	auto viewport_u = viewport_width * _basis_u;
 	auto viewport_v = viewport_height * -_basis_v;
 
-	_pixel_delta_u = viewport_u / image_width;
-	_pixel_delta_v = viewport_v / _image_height;
+	_pixel_delta_u = viewport_u / static_cast<float>(image_width);
+	_pixel_delta_v = viewport_v / static_cast<float>(_image_height);
 
-	auto viewport_upper_left = pos - (focus_distance * _basis_w) - viewport_u / 2.0 - viewport_v / 2.0;
-	_pixel_upper_left = viewport_upper_left + (_pixel_delta_u + _pixel_delta_v) * 0.5;
+	auto viewport_upper_left = pos - (focus_distance * _basis_w) - viewport_u / 2.f - viewport_v / 2.f;
+	_pixel_upper_left = viewport_upper_left + (_pixel_delta_u + _pixel_delta_v) * 0.5f;
 
-	auto defocus_radius = focus_distance * tan(MathUtility::degrees_to_radians(defocus_angle / 2.0));
+	auto defocus_radius = focus_distance * tan(MathUtility::degrees_to_radians(defocus_angle / 2.f));
 	_defocus_disk_u = _basis_u * defocus_radius;
 	_defocus_disk_v = _basis_v * defocus_radius;
 }
 
 void Camera::render_pixel(int x, int y) {
-	Color pixel_color{0.0, 0.0, 0.0};
+	Color pixel_color{0.f, 0.f, 0.f};
 	for(int sample = 0; sample < samples_per_pixel; ++sample) {
 		auto r = calc_ray(x, y);
 		pixel_color += calc_ray_color(r, max_bounces);
 	}
-	_render->set_pixel(x, y, pixel_color / samples_per_pixel);
+	_render->set_pixel(x, y, pixel_color / static_cast<float>(samples_per_pixel));
 }
 
 Ray Camera::calc_ray(int x, int y) const {
-	auto pixel_center = _pixel_upper_left + (_pixel_delta_u * x) + (_pixel_delta_v * y);
+	auto pixel_center = _pixel_upper_left + (_pixel_delta_u * static_cast<float>(x)) + (_pixel_delta_v * static_cast<float>(y));
 	auto pixel_sample = pixel_center + pixel_random_sample();
 
-	auto ray_origin = (defocus_angle <= 0) ? pos : defocus_disk_sample();
+	auto ray_origin = (defocus_angle <= 0.f) ? pos : defocus_disk_sample();
 	auto ray_direction = pixel_sample - ray_origin;
 
 	return {ray_origin, ray_direction};
 }
 
 Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
-	if(bounces_left <= 0) return {0.0, 0.0, 0.0};
+	if(bounces_left <= 0) return {0.f, 0.f, 0.f};
 
 	HitRecord record;
-	constexpr auto min_travel = 0.0001;
+	constexpr auto min_travel = 0.001f;
 	if(!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		return background_color(r);
 	}
@@ -114,8 +114,8 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
 }
 
 Point3 Camera::pixel_random_sample() const {
-	auto px = -0.5 + MathUtility::random_normalized();
-	auto py = -0.5 + MathUtility::random_normalized();
+	auto px = -0.5f + MathUtility::random_normalized();
+	auto py = -0.5f + MathUtility::random_normalized();
 	return (px * _pixel_delta_u) + (px * _pixel_delta_v);
 }
 
@@ -126,6 +126,6 @@ Point3 Camera::defocus_disk_sample() const {
 
 Color Camera::background_color(const Ray& r) const {
 	auto unit_direction = r.getDirection().normalized();
-	auto a = (unit_direction.y + 1.0) * 0.5;
-	return (1.0 - a) * background_primary + a * background_secondary;
+	auto a = (unit_direction.y + 1.f) * 0.5f;
+	return (1.f - a) * background_primary + a * background_secondary;
 }

@@ -46,7 +46,7 @@ bool Quad::hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const
 	return true;
 }
 
-bool Quad::hit_local(double a, double b, HitRecord& record_out) const {
+bool Quad::hit_local(float a, float b, HitRecord& record_out) const {
 	return Interval::unit.contains(a) && Interval::unit.contains(b);
 }
 
@@ -54,5 +54,5 @@ void Quad::update_bounding_box() {
 	auto diagonal_a = AABB{_pos, _pos + _u + _v};
 	auto diagonal_b = AABB{_pos + _u, _pos + _v};
 	_bbox = {diagonal_a, diagonal_b};
-	_bbox.pad_to_min_size(0.00001);
+	_bbox.pad_to_min_size(0.00001f);
 }

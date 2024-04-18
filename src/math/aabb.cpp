@@ -28,7 +28,7 @@ bool AABB::intersect(const Ray& r, Interval ray_t) const {
 
 	for(int axis = 0; axis < 3; ++axis) {
 		const Interval& a = intervals[axis];
-		auto inverse = 1.0 / ray_direction[axis];
+		auto inverse = 1.f / ray_direction[axis];
 
 		auto t0 = (intervals[axis].min - ray_origin[axis]) * inverse;
 		auto t1 = (intervals[axis].max - ray_origin[axis]) * inverse;
@@ -54,7 +54,7 @@ int AABB::longest_axis() const {
 	return y.size() > z.size() ? 1 : 2;
 }
 
-void AABB::pad_to_min_size(double s) {
+void AABB::pad_to_min_size(float s) {
 	if(x.size() < s) x.expand(s);
 	if(y.size() < s) y.expand(s);
 	if(z.size() < s) z.expand(s);
