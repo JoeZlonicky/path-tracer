@@ -3,14 +3,27 @@ on: [push]
 jobs:
     windows:
         name: Window build
-        runs-on: windows-latest
+        runs-on: windows-2022
         steps:
             - uses: actions/checkout@v2
             - name: build
               shell: cmd
-              run: ${{'"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && msbuild'}}
+              run: ${{'"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && msbuild /p:Configuration=Release'}}
             - name: upload
               uses: actions/upload-artifact@v2
               with:
                 name: windows
+                path: bin
+    linux:
+        name: Linux build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: build
+              shell: cmd
+              run: ${{'msbuild /p:Configuration=Release'}}
+            - name: upload
+              uses: actions/upload-artifact@v2
+              with:
+                name: linux
                 path: bin
