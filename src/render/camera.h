@@ -18,21 +18,21 @@ public:
 	[[nodiscard]] int get_n_pixel_renders_remaining();
 	[[nodiscard]] std::shared_ptr<Image> get_render();
 
-	Point3 pos{0.0, 0.0, -1.0};
-	Point3 look_at{0.0, 0.0, 0.0};
-	Vector3 up{0.0, 1.0, 0.0};
+	Point3 pos{0.f, 0.f, -1.f};
+	Point3 look_at{0.f, 0.f, 0.f};
+	Vector3 up{0.f, 1.f, 0.f};
 
-	double aspect_ratio = 1.0;
-	double vfov = 90.0;
-	double defocus_angle = 0.0;
-	double focus_distance = 10.0;
+	float aspect_ratio = 1.f;
+	float vfov = 90.f;
+	float defocus_angle = 0.f;
+	float focus_distance = 10.f;
 
 	int image_width = 100;
 	int samples_per_pixel = 10;
 	int max_bounces = 10;
 
-	Color background_primary{1.0, 1.0, 1.0};
-	Color background_secondary{0.5, 0.7, 1.0};
+	Color background_primary{1.f, 1.f, 1.f};
+	Color background_secondary{0.5f, 0.7f, 1.f};
 
 private:
 	void init();

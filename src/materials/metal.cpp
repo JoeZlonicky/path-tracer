@@ -5,7 +5,7 @@
 #include "../math/ray.h"
 #include "../math/vector_3.h"
 
-Metal::Metal(const Color& albedo, double fuzz) : _albedo(albedo), _fuzz(fuzz <= 1.0 ? fuzz : 1.0) {
+Metal::Metal(const Color& albedo, float fuzz) : _albedo(albedo), _fuzz(fuzz <= 1.f ? fuzz : 1.f) {
 }
 
 bool Metal::scatter(const Ray& r, const HitRecord& record, Color& attenuation_out, Ray& scattered_out) const {

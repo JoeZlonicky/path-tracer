@@ -10,7 +10,7 @@
 #include "../math/vector_3.h"
 #include "hit_record.h"
 
-Sphere::Sphere(Point3 center, double radius, std::shared_ptr<Material> material) : _center(center), _radius(radius), _material(material) {
+Sphere::Sphere(Point3 center, float radius, std::shared_ptr<Material> material) : _center(center), _radius(radius), _material(material) {
 	auto radius_v = Vector3{radius, radius, radius};
 	_bbox = AABB{center - radius_v, center + radius_v};
 }
@@ -26,7 +26,7 @@ bool Sphere::hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) con
 	auto c = oc.squared_magnitude() - r2;
 
 	auto discriminant = half_b * half_b - a * c;
-	if(discriminant < 0.0) return false;
+	if(discriminant < 0.f) return false;
 
 	auto sqrt_d = sqrt(discriminant);
 
