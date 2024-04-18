@@ -7,10 +7,11 @@
 #include <SDL_video.h>
 
 #include "../render/camera.h"
+#include "window.h"
 
 class UserInterface {
 public:
-	UserInterface(SDL_Window* window, SDL_Renderer* renderer);
+	UserInterface(Window& window);
 	~UserInterface();
 
 	void process_event(const SDL_Event* e);
@@ -22,7 +23,6 @@ public:
 
 private:
 	std::shared_ptr<Camera> _camera;
-	SDL_Window* _window = nullptr;
-	SDL_Renderer* _renderer = nullptr;
+	Window& _window;
 	ImGuiIO* _io = nullptr;
 };

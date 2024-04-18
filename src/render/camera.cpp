@@ -21,13 +21,14 @@ Camera::Camera(std::shared_ptr<Hittable> scene) : _scene(scene), _thread_pool([&
 Camera::~Camera() {
 }
 
-void Camera::render() {
+void Camera::render(bool quick) {
 	init();
 
+	_samples_per_pixel = quick ? low_quality_render_samples : high_quality_render_samples;
 	_render = std::make_shared<Image>(image_width, _image_height);
-	for(int y = 0; y < _image_height; ++y) {
-		for(int x = 0; x < image_width; ++x) {
-			_thread_pool.queue_task({x, y});
+	for (int y = 0; y < _image_height; ++y) {
+		for (int x = 0; x < image_width; ++x) {
+			_thread_pool.queue_task({ x, y });
 		}
 	}
 }
@@ -74,12 +75,12 @@ void Camera::init() {
 }
 
 void Camera::render_pixel(int x, int y) {
-	Color pixel_color{0.f, 0.f, 0.f};
-	for(int sample = 0; sample < samples_per_pixel; ++sample) {
+	Color pixel_color{ 0.f, 0.f, 0.f };
+	for (int sample = 0; sample < _samples_per_pixel; ++sample) {
 		auto r = calc_ray(x, y);
 		pixel_color += calc_ray_color(r, max_bounces);
 	}
-	_render->set_pixel(x, y, pixel_color / static_cast<float>(samples_per_pixel));
+	_render->set_pixel(x, y, pixel_color / static_cast<float>(_samples_per_pixel));
 }
 
 Ray Camera::calc_ray(int x, int y) const {
@@ -89,15 +90,15 @@ Ray Camera::calc_ray(int x, int y) const {
 	auto ray_origin = (defocus_angle <= 0.f) ? pos : defocus_disk_sample();
 	auto ray_direction = pixel_sample - ray_origin;
 
-	return {ray_origin, ray_direction};
+	return { ray_origin, ray_direction };
 }
 
 Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
-	if(bounces_left <= 0) return {0.f, 0.f, 0.f};
+	if (bounces_left <= 0) return { 0.f, 0.f, 0.f };
 
 	HitRecord record;
 	constexpr auto min_travel = 0.001f;
-	if(!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
+	if (!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		return background_color(r);
 	}
 
@@ -105,7 +106,7 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
 	Color attenuation;
 	Color emission_color = record.material->emitted();
 
-	if(!record.material->scatter(r, record, attenuation, scattered)) {
+	if (!record.material->scatter(r, record, attenuation, scattered)) {
 		return emission_color;
 	}
 

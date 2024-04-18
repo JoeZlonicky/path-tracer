@@ -8,7 +8,6 @@
 #include <string>
 
 #include "../render/camera.h"
-#include "user_interface.h"
 
 class Window {
 public:

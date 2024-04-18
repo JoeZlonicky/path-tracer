@@ -18,7 +18,7 @@ namespace {
 	}
 }
 
-Editor::Editor(Window& window) : _window(window), _ui{ _window.get_sdl_window(), _window.get_sdl_renderer() }
+Editor::Editor(Window& window) : _window(window), _ui{ _window }
 {
 	update_viewport_size_and_pos();
 }

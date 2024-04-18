@@ -13,26 +13,27 @@ public:
 	Camera(std::shared_ptr<Hittable> scene);
 	~Camera();
 
-	[[nodiscard]] void render();
+	[[nodiscard]] void render(bool quick = false);
 	[[nodiscard]] bool is_rendering();
 	[[nodiscard]] int get_n_pixel_renders_remaining();
 	[[nodiscard]] std::shared_ptr<Image> get_render();
 
-	Point3 pos{0.f, 0.f, -1.f};
-	Point3 look_at{0.f, 0.f, 0.f};
-	Vector3 up{0.f, 1.f, 0.f};
+	Point3 pos{ 0.f, 0.f, -1.f };
+	Point3 look_at{ 0.f, 0.f, 0.f };
+	Vector3 up{ 0.f, 1.f, 0.f };
 
 	float aspect_ratio = 1.f;
 	float vfov = 90.f;
 	float defocus_angle = 0.f;
 	float focus_distance = 10.f;
 
+	int low_quality_render_samples = 1;
+	int high_quality_render_samples = 50;
 	int image_width = 100;
-	int samples_per_pixel = 10;
 	int max_bounces = 10;
 
-	Color background_primary{1.f, 1.f, 1.f};
-	Color background_secondary{0.5f, 0.7f, 1.f};
+	Color background_primary{ 1.f, 1.f, 1.f };
+	Color background_secondary{ 0.5f, 0.7f, 1.f };
 
 private:
 	void init();
@@ -49,6 +50,7 @@ private:
 	std::shared_ptr<Image> _render;
 	GridThreadPool _thread_pool;
 
+	int _samples_per_pixel = 10;
 	bool _is_rendering = false;
 	int _image_height = 0;
 	Point3 _pixel_upper_left;
