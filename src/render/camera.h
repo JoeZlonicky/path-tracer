@@ -5,17 +5,18 @@
 #include "../hittables/hittable.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "grid_thread_pool.h"
 #include "image.h"
+#include "multithreaded_task.h"
 
 class Camera {
 public:
 	Camera(std::shared_ptr<Hittable> scene);
 	~Camera();
 
-	[[nodiscard]] void render(bool quick = false);
+	void render(bool quick = false);
+	void stop_render();
 	[[nodiscard]] bool is_rendering();
-	[[nodiscard]] int get_n_pixel_renders_remaining();
+	[[nodiscard]] int get_n_pixel_renders_remaining();  // Returns -1 if render ended prematurely (e.g. stopped)
 	[[nodiscard]] std::shared_ptr<Image> get_render();
 
 	Point3 pos{ 0.f, 0.f, -1.f };
@@ -37,7 +38,7 @@ public:
 
 private:
 	void init();
-	void render_pixel(int x, int y);
+	void render_pixel(int i);
 
 	[[nodiscard]] Ray calc_ray(int x, int y) const;
 	[[nodiscard]] Color calc_ray_color(const Ray& r, int bounces_left);
@@ -48,7 +49,7 @@ private:
 
 	std::shared_ptr<Hittable> _scene;
 	std::shared_ptr<Image> _render;
-	GridThreadPool _thread_pool;
+	MultithreadedTask _render_task;
 
 	int _samples_per_pixel = 10;
 	bool _is_rendering = false;

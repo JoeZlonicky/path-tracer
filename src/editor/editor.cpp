@@ -58,7 +58,7 @@ void Editor::set_camera(std::shared_ptr<Camera> camera)
 }
 
 void Editor::check_for_new_render() {
-	if (_camera->is_rendering()) return;
+	if (_camera->is_rendering() || _camera->get_n_pixel_renders_remaining() == -1) return;
 
 	auto render = _camera->get_render();
 	if (render == _latest_render) return;

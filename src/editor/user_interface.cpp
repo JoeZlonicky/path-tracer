@@ -60,18 +60,24 @@ void UserInterface::update() {
 		ImGui::SetNextWindowPos(ImVec2{ 0.f, 0.f });
 		ImGui::SetNextWindowSize(ImVec2{ static_cast<float>(width), static_cast<float>(_window.get_height()) });
 		ImGui::Begin("Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-		if (ImGui::Button("Render") && !_camera->is_rendering()) {
+		if (ImGui::Button("Render")) {
 			_camera->render();
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Quick render") && !_camera->is_rendering()) {
+		if (ImGui::Button("Quick render")) {
 			_camera->render(true);
 		}
 
 		if (_camera->is_rendering()) {
 			ImGui::SameLine();
-			auto text = "Rendering..." + std::to_string(_camera->get_n_pixel_renders_remaining());
-			ImGui::Text(text.c_str());
+			if (ImGui::Button("Stop")) {
+				_camera->stop_render();
+			}
+			else {
+				ImGui::SameLine();
+				auto text = "Rendering..." + std::to_string(_camera->get_n_pixel_renders_remaining());
+				ImGui::Text(text.c_str());
+			}
 		}
 		else if (_camera->get_render()) {
 			if (ImGui::Button("Save")) {
@@ -85,10 +91,10 @@ void UserInterface::update() {
 			ImGui::SliderInt("Max bounces", &_camera->max_bounces, 1, 100);
 		}
 
-		if (ImGui::CollapsingHeader("View settings")) {
+		if (ImGui::CollapsingHeader("Camera settings")) {
 			ImGui::SliderFloat("Vertical FOV", &_camera->vfov, 1.f, 180.f);
-			ImGui::SliderFloat("DOF angle", &_camera->defocus_angle, 0.f, 90.f);
-			ImGui::SliderFloat("Focus distance", &_camera->focus_distance, 0.0, 100.f);
+			ImGui::SliderFloat("DOF angle", &_camera->defocus_angle, 0.01f, 90.f);
+			ImGui::SliderFloat("Focus distance", &_camera->focus_distance, 0.01f, 100.f);
 		}
 
 		ImGui::End();

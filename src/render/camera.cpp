@@ -12,10 +12,9 @@
 #include "../math/math_utility.h"
 #include "../math/ray.h"
 #include "../math/vector_3.h"
-#include "grid_thread_pool.h"
 #include "image.h"
 
-Camera::Camera(std::shared_ptr<Hittable> scene) : _scene(scene), _thread_pool([&](int x, int y) {render_pixel(x, y); }) {
+Camera::Camera(std::shared_ptr<Hittable> scene) : _scene(scene), _render_task([&](int i) {render_pixel(i); }) {
 }
 
 Camera::~Camera() {
@@ -26,19 +25,20 @@ void Camera::render(bool quick) {
 
 	_samples_per_pixel = quick ? low_quality_render_samples : high_quality_render_samples;
 	_render = std::make_shared<Image>(image_width, _image_height);
-	for (int y = 0; y < _image_height; ++y) {
-		for (int x = 0; x < image_width; ++x) {
-			_thread_pool.queue_task({ x, y });
-		}
-	}
+	_render_task.start(image_width * _image_height);
+}
+
+void Camera::stop_render()
+{
+	_render_task.stop();
 }
 
 bool Camera::is_rendering() {
-	return _thread_pool.get_n_remaining_tasks() > 0;
+	return _render_task.get_n_remaining() > 0;
 }
 
 int Camera::get_n_pixel_renders_remaining() {
-	return _thread_pool.get_n_remaining_tasks();
+	return _render_task.get_n_remaining();
 }
 
 std::shared_ptr<Image> Camera::get_render() {
@@ -74,13 +74,14 @@ void Camera::init() {
 	_defocus_disk_v = _basis_v * defocus_radius;
 }
 
-void Camera::render_pixel(int x, int y) {
+void Camera::render_pixel(int i) {
 	Color pixel_color{ 0.f, 0.f, 0.f };
 	for (int sample = 0; sample < _samples_per_pixel; ++sample) {
-		auto r = calc_ray(x, y);
+		auto pos = _render->i_to_coord(i);
+		auto r = calc_ray(pos.first, pos.second);
 		pixel_color += calc_ray_color(r, max_bounces);
 	}
-	_render->set_pixel(x, y, pixel_color / static_cast<float>(_samples_per_pixel));
+	_render->set_pixel(i, pixel_color / static_cast<float>(_samples_per_pixel));
 }
 
 Ray Camera::calc_ray(int x, int y) const {

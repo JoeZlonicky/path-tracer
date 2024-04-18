@@ -43,7 +43,7 @@
     <ClCompile Include="src\materials\metal.cpp" />
     <ClCompile Include="src\math\ray.cpp" />
     <ClCompile Include="src\hittables\sphere.cpp" />
-    <ClCompile Include="src\render\grid_thread_pool.cpp" />
+    <ClCompile Include="src\render\multithreaded_task.cpp" />
     <ClCompile Include="src\math\vector_3.cpp" />
     <ClCompile Include="src\editor\user_interface.cpp" />
     <ClCompile Include="src\editor\window.cpp" />
@@ -66,7 +66,7 @@
     <ClInclude Include="src\materials\metal.h" />
     <ClInclude Include="src\math\ray.h" />
     <ClInclude Include="src\hittables\sphere.h" />
-    <ClInclude Include="src\render\grid_thread_pool.h" />
+    <ClInclude Include="src\render\multithreaded_task.h" />
     <ClInclude Include="src\math\math_utility.h" />
     <ClInclude Include="src\math\vector_3.h" />
     <ClInclude Include="src\editor\user_interface.h" />

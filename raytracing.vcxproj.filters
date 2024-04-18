@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\render\image.cpp" />
-    <ClCompile Include="src\render\grid_thread_pool.cpp" />
+    <ClCompile Include="src\render\multithreaded_task.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\aabb.cpp" />
     <ClCompile Include="src\math\interval.cpp" />
@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\render\image.h" />
-    <ClInclude Include="src\render\grid_thread_pool.h" />
+    <ClInclude Include="src\render\multithreaded_task.h" />
     <ClInclude Include="src\math\math_utility.h" />
     <ClInclude Include="src\math\vector_3.h" />
     <ClInclude Include="src\math\aabb.h" />
