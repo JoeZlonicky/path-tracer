@@ -11,7 +11,7 @@ struct HitRecord {
 	Point3 position;
 	Vector3 normal;
 	std::shared_ptr<Material> material;
-	double t;
+	float t = 0.f;
 	bool is_front_face = false;
 
 	// NOTE: `outward_normal` is assumed to have unit length

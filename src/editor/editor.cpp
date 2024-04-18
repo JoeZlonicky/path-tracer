@@ -71,7 +71,7 @@ void Editor::update_render()
 {
 	auto render_surface = SDL_CreateRGBSurface(0, _latest_render->get_width(), _latest_render->get_height(), 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_LockSurface(render_surface);
-	Interval intensity{ 0.000, 0.999 };
+	Interval intensity{ 0.f, 0.999f };
 	constexpr int max_value = 255;
 
 	for (int y = 0; y < _latest_render->get_height(); ++y) {

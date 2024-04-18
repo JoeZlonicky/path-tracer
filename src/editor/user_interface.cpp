@@ -55,8 +55,8 @@ void UserInterface::update() {
 	ImGui::NewFrame();
 
 	{
-		ImGui::SetNextWindowPos(ImVec2{ 0.0, 0.0 });
-		ImGui::SetNextWindowSize(ImVec2{ float(width), 720 });
+		ImGui::SetNextWindowPos(ImVec2{0.f, 0.f});
+		ImGui::SetNextWindowSize(ImVec2{static_cast<float>(width), 720.f});
 		ImGui::Begin("Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 		if (ImGui::Button("Render") && !_camera->is_rendering()) {
 			std::cout << "Render" << std::endl;

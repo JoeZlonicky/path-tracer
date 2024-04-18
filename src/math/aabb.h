@@ -21,7 +21,7 @@ public:
 
 	[[nodiscard]] bool intersect(const Ray& r, Interval ray_t) const;
 	[[nodiscard]] int longest_axis() const;
-	void pad_to_min_size(double s);
+	void pad_to_min_size(float s);
 
 	static AABB empty, universe;
 };

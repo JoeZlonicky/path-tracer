@@ -2,20 +2,20 @@
 
 class Interval {
 public:
-	double min;
-	double max;
+	float min;
+	float max;
 
 	Interval();
-	Interval(double p_min, double p_max);
+	Interval(float p_min, float p_max);
 	Interval(const Interval& a, const Interval& b);
 
-	void expand(double delta);
-	[[nodiscard]] Interval expanded(double delta) const;
+	void expand(float delta);
+	[[nodiscard]] Interval expanded(float delta) const;
 
-	[[nodiscard]] double clamped(double x) const;
-	[[nodiscard]] double size() const;
-	[[nodiscard]] bool contains(double x) const;
-	[[nodiscard]] bool surrounds(double x) const;
+	[[nodiscard]] float clamped(float x) const;
+	[[nodiscard]] float size() const;
+	[[nodiscard]] bool contains(float x) const;
+	[[nodiscard]] bool surrounds(float x) const;
 
 	static Interval empty;
 	static Interval universe;

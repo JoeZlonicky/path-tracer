@@ -12,7 +12,7 @@
 
 class Sphere : public Hittable {
 public:
-	Sphere(Point3 center, double radius, std::shared_ptr<Material> material);
+	Sphere(Point3 center, float radius, std::shared_ptr<Material> material);
 
 	bool hit(const Ray& r, const Interval& ray_t, HitRecord& record_out) const override;
 
@@ -20,7 +20,7 @@ public:
 
 private:
 	Point3 _center;
-	double _radius;
+	float _radius;
 	AABB _bbox;
 	std::shared_ptr<Material> _material;
 };

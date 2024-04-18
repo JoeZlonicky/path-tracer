@@ -8,7 +8,7 @@
 #include <chrono>
 
 static void configure_camera(Camera& camera) {
-	camera.aspect_ratio = 16.0 / 9.0;
+	camera.aspect_ratio = 16.f / 9.f;
 	camera.image_width = 400;
 	camera.max_bounces = 50;
 	camera.samples_per_pixel = 100;
@@ -17,8 +17,8 @@ static void configure_camera(Camera& camera) {
 	camera.pos = { 0, 0.0, 10.0 };
 	camera.look_at = { 0.0, 0.0, 0.0 };
 
-	camera.defocus_angle = 0.6;
-	camera.focus_distance = 10.0;
+	camera.defocus_angle = 0.6f;
+	camera.focus_distance = 10.f;
 }
 
 int main() {
