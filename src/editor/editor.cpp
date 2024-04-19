@@ -1,5 +1,6 @@
 #include "editor.h"
 
+#include <cmath>
 #include <memory>
 #include <SDL_events.h>
 #include <SDL_render.h>
@@ -15,6 +16,13 @@ namespace {
 	void set_pixel(SDL_Surface* surface, int x, int y, Uint32 pixel) {
 		Uint32* target_pixel = (Uint32*)((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
 		*target_pixel = pixel;
+	}
+
+	float linear_to_gamma(float s) {
+		if (s > 0.f) {
+			return sqrtf(s);
+		}
+		return 0.f;
 	}
 }
 
@@ -77,11 +85,16 @@ void Editor::update_render()
 	for (int y = 0; y < _latest_render->get_height(); ++y) {
 		for (int x = 0; x < _latest_render->get_width(); ++x) {
 			const auto& color = _latest_render->get_pixel(x, y);
-			auto r = static_cast<Uint8>(max_value * intensity.clamped(color.x));
-			auto g = static_cast<Uint8>(max_value * intensity.clamped(color.y));
-			auto b = static_cast<Uint8>(max_value * intensity.clamped(color.z));
+			auto r = linear_to_gamma(color.x);
+			auto g = linear_to_gamma(color.y);
+			auto b = linear_to_gamma(color.z);
+
+			auto r_byte = static_cast<Uint8>(max_value * intensity.clamped(r));
+			auto g_byte = static_cast<Uint8>(max_value * intensity.clamped(g));
+			auto b_byte = static_cast<Uint8>(max_value * intensity.clamped(b));
+
 			Uint8 a = 255;
-			Uint32 rgba = (r << 24) + (g << 16) + (b << 8) + a;
+			Uint32 rgba = (r_byte << 24) + (g_byte << 16) + (b_byte << 8) + a;
 			set_pixel(render_surface, x, y, rgba);
 		}
 	}
