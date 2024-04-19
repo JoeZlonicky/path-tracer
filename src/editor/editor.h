@@ -19,6 +19,7 @@ public:
 	[[nodiscard]] bool should_keep_open() const;
 
 	void set_camera(std::shared_ptr<Camera> camera);
+	void save_render();
 
 private:
 	void check_for_new_render();
@@ -30,7 +31,8 @@ private:
 	std::shared_ptr<Camera> _camera = nullptr;
 	std::shared_ptr<Image> _latest_render = nullptr;
 
-	SDL_Texture* _render_texture = nullptr;
+	SDL_Surface* _render_surface = nullptr;  // Used for saving
+	SDL_Texture* _render_texture = nullptr;  // User for rendering
 	SDL_Rect _viewport_rect{};
 
 	bool _should_keep_open = true;

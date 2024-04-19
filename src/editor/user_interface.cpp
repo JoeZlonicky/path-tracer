@@ -28,7 +28,7 @@ namespace {
 	}
 }
 
-UserInterface::UserInterface(Window& window) : _window(window) {
+UserInterface::UserInterface(Window& window, std::function<void()> save_func) : _window(window), _save_func(save_func) {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
@@ -81,7 +81,7 @@ void UserInterface::update() {
 		}
 		else if (_camera->get_render()) {
 			if (ImGui::Button("Save")) {
-				save_output(_camera->get_render());
+				_save_func();
 			}
 		}
 
@@ -91,7 +91,7 @@ void UserInterface::update() {
 			ImGui::SliderInt("Max bounces", &_camera->max_bounces, 1, 100);
 		}
 
-		if (ImGui::CollapsingHeader("Camera settings")) {
+		if (ImGui::CollapsingHeader("Camera settings", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::SliderFloat("Vertical FOV", &_camera->vfov, 1.f, 180.f);
 			ImGui::SliderFloat("DOF angle", &_camera->defocus_angle, 0.01f, 90.f);
 			ImGui::SliderFloat("Focus distance", &_camera->focus_distance, 0.01f, 100.f);

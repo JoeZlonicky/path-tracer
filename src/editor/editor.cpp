@@ -1,6 +1,5 @@
 #include "editor.h"
 
-#include <cmath>
 #include <memory>
 #include <SDL_events.h>
 #include <SDL_render.h>
@@ -9,24 +8,11 @@
 
 #include "../math/interval.h"
 #include "../render/camera.h"
+#include "image_utility.h"
 #include "window.h"
 
-namespace {
-	// https://stackoverflow.com/questions/20070155/how-to-set-a-pixel-in-a-sdl-surface
-	void set_pixel(SDL_Surface* surface, int x, int y, Uint32 pixel) {
-		Uint32* target_pixel = (Uint32*)((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
-		*target_pixel = pixel;
-	}
 
-	float linear_to_gamma(float s) {
-		if (s > 0.f) {
-			return sqrtf(s);
-		}
-		return 0.f;
-	}
-}
-
-Editor::Editor(Window& window) : _window(window), _ui{ _window }
+Editor::Editor(Window& window) : _window(window), _ui{ _window, [this]() {this->save_render(); } }
 {
 	update_viewport_size_and_pos();
 }
@@ -65,6 +51,12 @@ void Editor::set_camera(std::shared_ptr<Camera> camera)
 	_ui.set_camera(camera);
 }
 
+void Editor::save_render()
+{
+	if (_render_surface == nullptr) return;
+	ImageUtility::save_sdl_surface_as_png(_render_surface);
+}
+
 void Editor::check_for_new_render() {
 	if (_camera->is_rendering() || _camera->get_n_pixel_renders_remaining() == -1) return;
 
@@ -77,17 +69,19 @@ void Editor::check_for_new_render() {
 
 void Editor::update_render()
 {
-	auto render_surface = SDL_CreateRGBSurface(0, _latest_render->get_width(), _latest_render->get_height(), 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
-	SDL_LockSurface(render_surface);
+	SDL_FreeSurface(_render_surface);
+
+	_render_surface = SDL_CreateRGBSurface(0, _latest_render->get_width(), _latest_render->get_height(), 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	SDL_LockSurface(_render_surface);
 	Interval intensity{ 0.f, 0.999f };
 	constexpr int max_value = 255;
 
 	for (int y = 0; y < _latest_render->get_height(); ++y) {
 		for (int x = 0; x < _latest_render->get_width(); ++x) {
 			const auto& color = _latest_render->get_pixel(x, y);
-			auto r = linear_to_gamma(color.x);
-			auto g = linear_to_gamma(color.y);
-			auto b = linear_to_gamma(color.z);
+			auto r = ImageUtility::linear_to_gamma(color.x);
+			auto g = ImageUtility::linear_to_gamma(color.y);
+			auto b = ImageUtility::linear_to_gamma(color.z);
 
 			auto r_byte = static_cast<Uint8>(max_value * intensity.clamped(r));
 			auto g_byte = static_cast<Uint8>(max_value * intensity.clamped(g));
@@ -95,15 +89,14 @@ void Editor::update_render()
 
 			Uint8 a = 255;
 			Uint32 rgba = (r_byte << 24) + (g_byte << 16) + (b_byte << 8) + a;
-			set_pixel(render_surface, x, y, rgba);
+			ImageUtility::set_sdl_surface_pixel(_render_surface, x, y, rgba);
 		}
 	}
-	SDL_UnlockSurface(render_surface);
+	SDL_UnlockSurface(_render_surface);
 
 	SDL_DestroyTexture(_render_texture);
-	_render_texture = SDL_CreateTextureFromSurface(_window.get_sdl_renderer(), render_surface);
+	_render_texture = SDL_CreateTextureFromSurface(_window.get_sdl_renderer(), _render_surface);
 
-	SDL_FreeSurface(render_surface);
 	update_viewport_size_and_pos();
 }
 

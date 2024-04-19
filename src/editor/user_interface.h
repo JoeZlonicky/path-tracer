@@ -11,7 +11,7 @@
 
 class UserInterface {
 public:
-	UserInterface(Window& window);
+	UserInterface(Window& window, std::function<void()> save_func);
 	~UserInterface();
 
 	void process_event(const SDL_Event* e);
@@ -22,6 +22,7 @@ public:
 	const int width = 400;
 
 private:
+	std::function<void()> _save_func;
 	std::shared_ptr<Camera> _camera;
 	Window& _window;
 	ImGuiIO* _io = nullptr;
