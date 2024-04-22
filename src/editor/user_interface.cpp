@@ -88,8 +88,8 @@ void UserInterface::update() {
 				update_scene();
 			}
 
-			ImGui::ColorEdit3("Background Color 1", _camera->background_primary.components, ImGuiColorEditFlags_NoInputs);
-			ImGui::ColorEdit3("Background Color 2", _camera->background_secondary.components, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Background color 1", _camera->background_primary.components, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Background color 2", _camera->background_secondary.components, ImGuiColorEditFlags_NoInputs);
 		}
 
 		// RENDER QUALITY
