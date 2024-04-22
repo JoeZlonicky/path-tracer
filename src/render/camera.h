@@ -13,7 +13,7 @@
 class Camera {
 public:
 	Camera();
-	~Camera();
+	~Camera() = default;
 
 	void set_scene(std::shared_ptr<HittableList> scene);
 	void render(bool quick = false);

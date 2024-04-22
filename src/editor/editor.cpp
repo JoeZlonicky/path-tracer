@@ -115,7 +115,7 @@ void Editor::update_viewport_size_and_pos()
 	if (render_aspect_ratio < available_aspect_ratio) {
 		// More width available
 		_viewport_rect.h = available_height;
-		_viewport_rect.w = _viewport_rect.h * render_aspect_ratio;
+		_viewport_rect.w = static_cast<int>(_viewport_rect.h * render_aspect_ratio);
 
 		_viewport_rect.x = _ui.width + (available_width - _viewport_rect.w) / 2;
 		_viewport_rect.y = 0;

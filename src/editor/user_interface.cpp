@@ -16,23 +16,6 @@
 #include "../scenes/scenes.h"
 #include "window.h"
 
-namespace {
-	void save_output(std::shared_ptr<Image> image) {
-		std::ofstream output;
-		constexpr auto output_filepath = "output.ppm";
-		output.open(output_filepath);
-
-		std::clog << "Saving output..." << std::endl;
-		output << "P3\n" << image->get_width() << ' ' << image->get_height() << "\n255\n";
-		for (auto& pixel : image->get_pixels()) {
-			MathUtility::write_color_256(output, pixel);
-		}
-
-		output.close();
-		std::clog << "Saved to " << output_filepath << std::endl;
-	}
-}
-
 UserInterface::UserInterface(Window& window, std::function<std::string()> save_func) : _window(window), _save_func(save_func) {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
@@ -66,6 +49,7 @@ void UserInterface::update() {
 		ImGui::SetNextWindowSize(ImVec2{ static_cast<float>(width), static_cast<float>(_window.get_height()) });
 		ImGui::Begin("Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
+		// ACTIONS
 		if (ImGui::Button("Render")) {
 			_camera->render();
 			_save_name = "";
@@ -98,24 +82,31 @@ void UserInterface::update() {
 			}
 		}
 
+		// SCENE SETUP
 		if (ImGui::CollapsingHeader("Scene setup", ImGuiTreeNodeFlags_DefaultOpen)) {
 			if (ImGui::Combo("Scene", &_current_scene_selection, Scenes::scene_names, IM_ARRAYSIZE(Scenes::scene_names))) {
 				update_scene();
 			}
 
 			ImGui::Combo("Materials", &_current_material_selection, Scenes::material_names, IM_ARRAYSIZE(Scenes::material_names));
+			ImGui::ColorEdit3("Background Color 1", _camera->background_primary.components, ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit3("Background Color 2", _camera->background_secondary.components, ImGuiColorEditFlags_NoInputs);
 		}
 
+		// RENDER QUALITY
 		if (ImGui::CollapsingHeader("Render quality", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::SliderInt("Image width", &_camera->image_width, 1, 3840);
 			ImGui::SliderInt("Samples per pixel", &_camera->high_quality_render_samples, 1, 1000);
 			ImGui::SliderInt("Max bounces", &_camera->max_bounces, 1, 100);
 		}
 
+		// CAMERA SETTINGS
 		if (ImGui::CollapsingHeader("Camera settings", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::SliderFloat("Vertical FOV", &_camera->vfov, 1.f, 179.f);
 			ImGui::SliderFloat("Defocus strength", &_camera->defocus_angle, 0.f, 10.f);
 			ImGui::SliderFloat("Focus distance", &_camera->focus_distance, 0.01f, 100.f);
+			ImGui::InputFloat3("Position", _camera->pos.components);
+			ImGui::InputFloat3("Look at", _camera->look_at.components);
 		}
 
 		ImGui::End();

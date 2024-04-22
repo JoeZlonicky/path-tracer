@@ -19,9 +19,6 @@
 Camera::Camera() : _render_task([&](int i) {render_pixel(i); }) {
 }
 
-Camera::~Camera() {
-}
-
 void Camera::set_scene(std::shared_ptr<HittableList> scene)
 {
 	_scene_tree = std::make_unique<BVHNode>(*scene);
