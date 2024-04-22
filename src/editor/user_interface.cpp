@@ -88,7 +88,6 @@ void UserInterface::update() {
 				update_scene();
 			}
 
-			ImGui::Combo("Materials", &_current_material_selection, Scenes::material_names, IM_ARRAYSIZE(Scenes::material_names));
 			ImGui::ColorEdit3("Background Color 1", _camera->background_primary.components, ImGuiColorEditFlags_NoInputs);
 			ImGui::ColorEdit3("Background Color 2", _camera->background_secondary.components, ImGuiColorEditFlags_NoInputs);
 		}
@@ -118,14 +117,6 @@ void UserInterface::update() {
 
 void UserInterface::set_camera(std::shared_ptr<Camera> camera) {
 	_camera = camera;
-}
-
-int UserInterface::get_current_scene_selection() const {
-	return _current_scene_selection;
-}
-
-int UserInterface::get_current_material_selection() const {
-	return _current_scene_selection;
 }
 
 void UserInterface::update_scene() {
