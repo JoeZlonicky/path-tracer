@@ -69,16 +69,16 @@ namespace Scenes {
 
 		// Ground
 		auto ground_material = std::make_shared<Lambertian>(Color{ 0.13f, 0.69f, 0.3f });
-		create_sphere(scene, { 0.f, -1002.f, 0.f }, 1000.f, ground_material);
+		create_sphere(scene, { 0.f, -1004.f, 0.f }, 1000.f, ground_material);
 
 		auto radius = 1.f;
 		auto diameter = radius * 2.f;
 		auto height = 5;
 
 		auto sphere_material = std::make_shared<Metal>(Color{ 1.f, 0.8f, 0.05f }, 0.f);
-		auto pyramid_bottom_center = Point3{ 0.f, radius / 2.f, -5.f };
+		auto pyramid_bottom_center = Point3{ 0.f, -4.f, -15.f };
+		auto y_offset = radius;
 
-		auto y_offset = -radius;
 		for (auto level = 0; level < height; ++level) {
 			auto n = height - level;
 			auto y = static_cast<float>(level) * sqrtf(2.f) * radius;
