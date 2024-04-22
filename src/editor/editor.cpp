@@ -102,13 +102,31 @@ void Editor::update_render()
 
 void Editor::update_viewport_size_and_pos()
 {
-	_viewport_rect.x = _ui.width;
-	_viewport_rect.w = _window.get_width() - _ui.width;
 	if (_latest_render == nullptr) {
-		_viewport_rect.h = _window.get_height();
 		return;
 	}
 
-	_viewport_rect.h = static_cast<int>(_viewport_rect.w / _latest_render->get_aspect_ratio());
-	_viewport_rect.y = (_window.get_height() - _viewport_rect.h) / 2;
+	auto render_aspect_ratio = _latest_render->get_aspect_ratio();
+
+	auto available_width = _window.get_width() - _ui.width;
+	auto available_height = _window.get_height();
+	auto available_aspect_ratio = static_cast<float>(available_width) / static_cast<float>(available_height);
+
+	if (render_aspect_ratio < available_aspect_ratio) {
+		// More width available
+		_viewport_rect.h = available_height;
+		_viewport_rect.w = _viewport_rect.h * render_aspect_ratio;
+
+		_viewport_rect.x = _ui.width + (available_width - _viewport_rect.w) / 2;
+		_viewport_rect.y = 0;
+	}
+	else {
+		// More height available
+		_viewport_rect.w = available_width;
+		_viewport_rect.h = static_cast<int>(_viewport_rect.w / render_aspect_ratio);
+
+		_viewport_rect.x = _ui.width;
+		_viewport_rect.y = (available_height - _viewport_rect.h) / 2;
+	}
+
 }
