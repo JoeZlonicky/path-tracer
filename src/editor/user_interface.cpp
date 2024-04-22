@@ -9,6 +9,7 @@
 
 #include "../math/math_utility.h"
 #include "../render/camera.h"
+#include "../scenes/scenes.h"
 #include "window.h"
 
 namespace {
@@ -60,6 +61,7 @@ void UserInterface::update() {
 		ImGui::SetNextWindowPos(ImVec2{ 0.f, 0.f });
 		ImGui::SetNextWindowSize(ImVec2{ static_cast<float>(width), static_cast<float>(_window.get_height()) });
 		ImGui::Begin("Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+
 		if (ImGui::Button("Render")) {
 			_camera->render();
 		}
@@ -80,20 +82,29 @@ void UserInterface::update() {
 			}
 		}
 		else if (_camera->get_render()) {
+			ImGui::SameLine();
 			if (ImGui::Button("Save")) {
 				_save_func();
 			}
 		}
 
+		if (ImGui::CollapsingHeader("Scene setup", ImGuiTreeNodeFlags_DefaultOpen)) {
+			static int current_scene_idx = 0;
+			ImGui::Combo("Scene", &current_scene_idx, Scenes::scene_names, IM_ARRAYSIZE(Scenes::scene_names));
+
+			static int current_material_idx = 0;
+			ImGui::Combo("Materials", &current_material_idx, Scenes::material_names, IM_ARRAYSIZE(Scenes::material_names));
+		}
+
 		if (ImGui::CollapsingHeader("Render quality", ImGuiTreeNodeFlags_DefaultOpen)) {
-			ImGui::SliderInt("Image width", &_camera->image_width, 1, 1920);
-			ImGui::SliderInt("Samples per pixel", &_camera->high_quality_render_samples, 1, 500);
+			ImGui::SliderInt("Image width", &_camera->image_width, 1, 3840);
+			ImGui::SliderInt("Samples per pixel", &_camera->high_quality_render_samples, 1, 1000);
 			ImGui::SliderInt("Max bounces", &_camera->max_bounces, 1, 100);
 		}
 
 		if (ImGui::CollapsingHeader("Camera settings", ImGuiTreeNodeFlags_DefaultOpen)) {
-			ImGui::SliderFloat("Vertical FOV", &_camera->vfov, 1.f, 180.f);
-			ImGui::SliderFloat("DOF angle", &_camera->defocus_angle, 0.01f, 90.f);
+			ImGui::SliderFloat("Vertical FOV", &_camera->vfov, 1.f, 179.f);
+			ImGui::SliderFloat("Defocus strength", &_camera->defocus_angle, 0.f, 10.f);
 			ImGui::SliderFloat("Focus distance", &_camera->focus_distance, 0.01f, 100.f);
 		}
 
@@ -106,4 +117,14 @@ void UserInterface::update() {
 
 void UserInterface::set_camera(std::shared_ptr<Camera> camera) {
 	_camera = camera;
+}
+
+int UserInterface::get_current_scene_selection() const
+{
+	return _current_scene_selection;
+}
+
+int UserInterface::get_current_material_selection() const
+{
+	return _current_scene_selection;
 }

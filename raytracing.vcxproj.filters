@@ -52,8 +52,9 @@
     <ClInclude Include="src\hittables\quad.h" />
     <ClInclude Include="src\materials\diffuse_light.h" />
     <ClInclude Include="src\editor\user_interface.h" />
-    <ClInclude Include="src\scenes\five_spheres.h" />
+    <ClInclude Include="src\scenes\scenes.h" />
     <ClInclude Include="src\editor\editor.h" />
+    <ClInclude Include="src\editor\image_utility.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll" />

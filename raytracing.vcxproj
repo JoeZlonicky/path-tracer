@@ -72,7 +72,7 @@
     <ClInclude Include="src\math\vector_3.h" />
     <ClInclude Include="src\editor\user_interface.h" />
     <ClInclude Include="src\editor\window.h" />
-    <ClInclude Include="src\scenes\five_spheres.h" />
+    <ClInclude Include="src\scenes\scenes.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="external\SDL2-2.30.2\lib\x64\SDL2.dll">

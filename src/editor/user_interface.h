@@ -19,6 +19,9 @@ public:
 
 	void set_camera(std::shared_ptr<Camera> camera);
 
+	[[nodiscard]] int get_current_scene_selection() const;
+	[[nodiscard]] int get_current_material_selection() const;
+
 	const int width = 400;
 
 private:
@@ -26,4 +29,7 @@ private:
 	std::shared_ptr<Camera> _camera;
 	Window& _window;
 	ImGuiIO* _io = nullptr;
+
+	int _current_scene_selection = 0;
+	int _current_material_selection = 0;
 };

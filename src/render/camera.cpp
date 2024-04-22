@@ -5,8 +5,10 @@
 #include <iostream>
 #include <memory>
 
+#include "../hittables/bvh_node.h"
 #include "../hittables/hit_record.h"
 #include "../hittables/hittable.h"
+#include "../hittables/hittable_list.h"
 #include "../materials/material.h"
 #include "../math/interval.h"
 #include "../math/math_utility.h"
@@ -14,10 +16,15 @@
 #include "../math/vector_3.h"
 #include "image.h"
 
-Camera::Camera(std::shared_ptr<Hittable> scene) : _scene(scene), _render_task([&](int i) {render_pixel(i); }) {
+Camera::Camera() : _render_task([&](int i) {render_pixel(i); }) {
 }
 
 Camera::~Camera() {
+}
+
+void Camera::set_scene(std::shared_ptr<HittableList> scene)
+{
+	_scene_tree = std::make_unique<BVHNode>(*scene);
 }
 
 void Camera::render(bool quick) {
@@ -99,7 +106,7 @@ Color Camera::calc_ray_color(const Ray& r, int bounces_left) {
 
 	HitRecord record;
 	constexpr auto min_travel = 0.001f;
-	if (!_scene->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
+	if (!_scene_tree->hit(r, Interval(min_travel, MathUtility::infinity), record)) {
 		return background_color(r);
 	}
 
