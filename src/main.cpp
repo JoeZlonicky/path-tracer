@@ -14,7 +14,7 @@ int main() {
 	// Setup
 	Window window{ "Raytracer", 1280, 720 };
 	Editor editor{ window };
-	auto scene = std::make_shared<HittableList>(Scenes::sphere_trapezoid());
+	auto scene = std::make_shared<HittableList>(Scenes::five_spheres());
 	auto camera = std::make_shared<Camera>();
 	camera->set_scene(scene);
 	editor.set_camera(camera);

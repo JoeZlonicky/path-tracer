@@ -19,30 +19,19 @@ namespace {
 }
 
 namespace Scenes {
-	enum Scenes {
-		SPHERE_TRAPEZOID,
-		SPHERE_GRID,
-		SPHERE_PYRAMID,
-		SPHERE_FIELD
-	};
 
 	static const char* scene_names[] = {
-		"Sphere trapezoid"
-	};
-
-	enum MaterialOptions {
-		DEFAULT,
-		LAMBERTIAN,
-		METALLIC,
-		DIELECTRIC,
-		RANDOM
+		"5 spheres",
+		"Pyramid"
 	};
 
 	static const char* material_names[] = {
 		"Default"
 	};
 
-	static HittableList sphere_trapezoid() {
+	static std::shared_ptr<HittableList> instance_scene(int i);
+
+	static HittableList five_spheres() {
 		HittableList scene;
 
 		// Ground
@@ -73,5 +62,24 @@ namespace Scenes {
 		create_sphere(scene, { tri_x * 2.f, distance + y_offset, 0.f }, radius, silver_metal_material);
 
 		return scene;
+	}
+
+	static HittableList pyramid() {
+		HittableList scene;
+
+		// Ground
+		auto ground_material = std::make_shared<Lambertian>(Color{ 0.13f, 0.69f, 0.3f });
+		create_sphere(scene, { 0.f, -1002.f, 0.f }, 1000.f, ground_material);
+
+		return scene;
+	}
+
+	static std::shared_ptr<HittableList> instance_scene(int i) {
+		HittableList scene;
+		if (i == 0) scene = five_spheres();
+		else if (i == 1) scene = pyramid();
+		else assert(false);
+
+		return std::make_shared<HittableList>(scene);
 	}
 }

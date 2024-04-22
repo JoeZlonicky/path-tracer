@@ -1,14 +1,18 @@
 #include "user_interface.h"
 
 #include <fstream>
+#include <functional>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_sdlrenderer2.h>
 #include <iostream>
 #include <memory>
+#include <SDL_events.h>
+#include <string>
 
 #include "../math/math_utility.h"
 #include "../render/camera.h"
+#include "../render/image.h"
 #include "../scenes/scenes.h"
 #include "window.h"
 
@@ -95,11 +99,11 @@ void UserInterface::update() {
 		}
 
 		if (ImGui::CollapsingHeader("Scene setup", ImGuiTreeNodeFlags_DefaultOpen)) {
-			static int current_scene_idx = 0;
-			ImGui::Combo("Scene", &current_scene_idx, Scenes::scene_names, IM_ARRAYSIZE(Scenes::scene_names));
+			if (ImGui::Combo("Scene", &_current_scene_selection, Scenes::scene_names, IM_ARRAYSIZE(Scenes::scene_names))) {
+				update_scene();
+			}
 
-			static int current_material_idx = 0;
-			ImGui::Combo("Materials", &current_material_idx, Scenes::material_names, IM_ARRAYSIZE(Scenes::material_names));
+			ImGui::Combo("Materials", &_current_material_selection, Scenes::material_names, IM_ARRAYSIZE(Scenes::material_names));
 		}
 
 		if (ImGui::CollapsingHeader("Render quality", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -125,12 +129,15 @@ void UserInterface::set_camera(std::shared_ptr<Camera> camera) {
 	_camera = camera;
 }
 
-int UserInterface::get_current_scene_selection() const
-{
+int UserInterface::get_current_scene_selection() const {
 	return _current_scene_selection;
 }
 
-int UserInterface::get_current_material_selection() const
-{
+int UserInterface::get_current_material_selection() const {
 	return _current_scene_selection;
+}
+
+void UserInterface::update_scene() {
+	if (_camera == nullptr) return;
+	_camera->set_scene(Scenes::instance_scene(_current_scene_selection));
 }

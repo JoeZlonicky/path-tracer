@@ -26,6 +26,8 @@ public:
 	const int width = 400;
 
 private:
+	void update_scene();
+
 	std::function<std::string()> _save_func;
 	std::shared_ptr<Camera> _camera;
 	Window& _window;
