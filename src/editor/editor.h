@@ -3,6 +3,8 @@
 #include <memory>
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <SDL_surface.h>
+#include <string>
 
 #include "../render/camera.h"
 #include "../render/image.h"
@@ -19,7 +21,7 @@ public:
 	[[nodiscard]] bool should_keep_open() const;
 
 	void set_camera(std::shared_ptr<Camera> camera);
-	void save_render();
+	std::string save_render();
 
 private:
 	void check_for_new_render();

@@ -29,7 +29,7 @@ namespace {
 	}
 }
 
-UserInterface::UserInterface(Window& window, std::function<void()> save_func) : _window(window), _save_func(save_func) {
+UserInterface::UserInterface(Window& window, std::function<std::string()> save_func) : _window(window), _save_func(save_func) {
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
@@ -64,10 +64,12 @@ void UserInterface::update() {
 
 		if (ImGui::Button("Render")) {
 			_camera->render();
+			_save_name = "";
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Quick render")) {
 			_camera->render(true);
+			_save_name = "";
 		}
 
 		if (_camera->is_rendering()) {
@@ -82,9 +84,13 @@ void UserInterface::update() {
 			}
 		}
 		else if (_camera->get_render()) {
-			ImGui::SameLine();
 			if (ImGui::Button("Save")) {
-				_save_func();
+				_save_name = _save_func();
+			}
+			if (_save_name != "") {
+				ImGui::SameLine();
+				auto text = "Saved as " + _save_name;
+				ImGui::Text(text.c_str());
 			}
 		}
 

@@ -12,7 +12,7 @@
 #include "window.h"
 
 
-Editor::Editor(Window& window) : _window(window), _ui{ _window, [this]() {this->save_render(); } }
+Editor::Editor(Window& window) : _window(window), _ui{ _window, [this]() -> std::string { return this->save_render(); } }
 {
 	update_viewport_size_and_pos();
 }
@@ -51,10 +51,10 @@ void Editor::set_camera(std::shared_ptr<Camera> camera)
 	_ui.set_camera(camera);
 }
 
-void Editor::save_render()
+std::string Editor::save_render()
 {
-	if (_render_surface == nullptr) return;
-	ImageUtility::save_sdl_surface_as_png(_render_surface);
+	if (_render_surface == nullptr) return "";
+	return ImageUtility::save_sdl_surface_as_png(_render_surface);
 }
 
 void Editor::check_for_new_render() {
