@@ -12,7 +12,7 @@
 
 int main() {
 	// Setup
-	Window window{ "Raytracer", 1280, 720 };
+	Window window{ "Path Tracer", 1280, 720 };
 	Editor editor{ window };
 	auto camera = std::make_shared<Camera>();
 	camera->set_scene(Scenes::instance_scene(0));
